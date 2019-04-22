@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** TokenizerResult.hpp
@@ -83,6 +83,7 @@ template<typename TokenType>
 template<typename... TokenTypeList>
 typename TokenType::InputValueType TokenizerResult<TokenType>::ConsumeAllPrevious(size_t start, TokenTypeList &&...types)
 {
+	// 这里的累加是顺序依赖的， 不可交换的
     std::vector<typename TokenType::EnumType> toConsume { std::forward<TokenTypeList>( types )... };
 
     std::vector<typename TokenType::InputValueType *> consumed;
@@ -117,7 +118,8 @@ typename TokenType::InputValueType TokenizerResult<TokenType>::ConsumeAllNext(si
 
     for (size_t i = start; i < m_tokens.size( ); ++i)
     {
-        auto &token = m_tokens[ start - i ];
+		// 这里作者有个错误 修正一下
+        auto &token = m_tokens[i];
 
         auto search = std::find( toConsume.begin( ), toConsume.end( ), token.type );
 

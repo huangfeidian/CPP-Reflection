@@ -12,7 +12,7 @@
 #include "Tokenizer/TokenType.h"
 #include "Tokenizer/Tokenizer.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #define TOKENS_WHITESPACE   ' ', '\r', '\n', '\t'
 #define TOKENS_NUMBER       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
@@ -69,23 +69,23 @@ std::string MetaDataManager::GetNativeString(const std::string &key) const
     if (search == m_properties.end( ))
         return "";
 
-    static const boost::regex quotedString(
+    static const std::regex quotedString(
         // opening quote
         "(?:\\s*\")"
         // actual string contents
         "([^\"]*)"
         // closing quote
         "\"",
-        boost::regex::icase
+        std::regex::icase
     );
 
     auto &value = search->second;
     
-    auto flags = boost::match_default | boost::format_all;
+    auto flags = std::regex_constants::match_default | std::regex_constants::format_default;
 
-    boost::match_results<std::string::const_iterator> match;
+    std::match_results<std::string::const_iterator> match;
 
-    if (boost::regex_search( 
+    if (std::regex_search( 
             value.cbegin( ), 
             value.cend( ), 
             match, 

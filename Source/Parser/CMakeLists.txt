@@ -77,7 +77,6 @@ find_package(Boost 1.59.0 REQUIRED
     system
     filesystem
     program_options
-    regex
 )
 
 # add boost includes
