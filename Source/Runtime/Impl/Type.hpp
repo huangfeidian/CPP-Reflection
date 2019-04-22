@@ -32,7 +32,7 @@ namespace ursine
         template<typename T>
         Type Type::Get(T &&obj)
         {
-            return { typeof( T ) };
+            return { meta_typeof( T ) };
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -40,13 +40,13 @@ namespace ursine
         template<typename T>
         bool Type::DerivesFrom(void) const
         {
-            return DerivesFrom( typeof( T ) );
+            return DerivesFrom( meta_typeof( T ) );
         }
 
         template<typename ClassType>
         Json Type::SerializeJson(const ClassType &instance, bool invokeHook)
         {
-            auto type = typeof( ClassType );
+            auto type = meta_typeof( ClassType );
 
             UAssert( type.IsValid( ),
                 "Invalid type serialized."
@@ -60,7 +60,7 @@ namespace ursine
         template<typename ClassType>
         ClassType Type::DeserializeJson(const Json &value)
         {
-            auto type = typeof( ClassType );
+            auto type = meta_typeof( ClassType );
 
             UAssert( type.IsValid( ),
                 "Invalid type created."

@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** TypeInfo.hpp
@@ -33,6 +33,7 @@ namespace ursine
             bool beingDefined
         )
         {
+			// 这里才是真正的注册所有类型的地方
             // already defined
             if (id == Type::Invalid( ).GetID( ))
                 return;

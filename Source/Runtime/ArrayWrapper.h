@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ArrayWrapper.h
@@ -16,6 +16,9 @@ namespace ursine
 
         class ArrayWrapper
         {
+			// 这个类型好像没啥大用
+			// 除了提供初始化 get set insert remove 五个接口之外
+			// 居然还用标记位来标明是否是const的
         public:
             ArrayWrapper(void);
 

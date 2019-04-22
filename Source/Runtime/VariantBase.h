@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** VariantBase.h
@@ -19,6 +19,8 @@ namespace ursine
 
         class VariantBase
         {
+			// 这个是用来存储特定类型基础值的纯虚类
+			// 下面有array的继承版本
         public:
             virtual ~VariantBase(void) { }
 

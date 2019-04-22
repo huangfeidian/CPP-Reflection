@@ -10,6 +10,7 @@
 
 #include "Type.h"
 
+// 下面这个宏用来注册所有的内置类型
 #define REGISTER_NATIVE_TYPE(type)                    \
     {                                                 \
         auto id = AllocateType( #type );              \
@@ -18,6 +19,7 @@
         TypeInfo<type>::Register( id, handle, true ); \
     }                                                 \
 
+// 自动注册指针 和const 指针
 #define REGISTER_NATIVE_TYPE_VARIANTS(type) \
     REGISTER_NATIVE_TYPE( type )            \
     REGISTER_NATIVE_TYPE( type* )           \

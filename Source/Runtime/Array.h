@@ -8,21 +8,26 @@
 
 #include <vector>
 
+//namespace ursine
+//{
+//    // Basic wrapper around std::vector. Clang has a hard time with other 
+//    // compilers implementation of std::vector, so this must be used in order to have 
+//    // Array like functionality within the runtime
+//    template<typename T>
+//    class Array : public std::vector<T>
+//    {
+//    public:
+//        Array(void);
+//        Array(const std::vector<T> &rhs);
+//        Array(const std::vector<T> &&rhs);
+//        Array(const std::initializer_list<T> &rhs);
+//        Array(const std::initializer_list<T> &&rhs);
+//    };
+//}
+//
+//#include "Impl/Array.hpp"
 namespace ursine
 {
-    // Basic wrapper around std::vector. Clang has a hard time with other 
-    // compilers implementation of std::vector, so this must be used in order to have 
-    // Array like functionality within the runtime
-    template<typename T>
-    class Array : public std::vector<T>
-    {
-    public:
-        Array(void);
-        Array(const std::vector<T> &rhs);
-        Array(const std::vector<T> &&rhs);
-        Array(const std::initializer_list<T> &rhs);
-        Array(const std::initializer_list<T> &&rhs);
-    };
+	template <typename T>
+	using Array = std::vector<T>;
 }
-
-#include "Impl/Array.hpp"

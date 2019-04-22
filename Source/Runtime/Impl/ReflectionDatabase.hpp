@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ReflectionDatabase.hpp
@@ -18,7 +18,7 @@ namespace ursine
 
             Global global {
                 name,
-                typeof( GlobalType ),
+                meta_typeof( GlobalType ),
                 !getter ? nullptr : new GlobalGetterType(
                     reinterpret_cast<typename GlobalGetterType::Signature>( getter )
                 ),
@@ -42,7 +42,7 @@ namespace ursine
 
             Global global {
                 name,
-                typeof( GlobalType ),
+                meta_typeof( GlobalType ),
                 !getter ? nullptr : new GlobalGetterType(
                     reinterpret_cast<typename GlobalGetterType::Signature>( getter )
                 ),
@@ -64,7 +64,7 @@ namespace ursine
 
             Global global {
                 name,
-                typeof( GlobalType ),
+                meta_typeof( GlobalType ),
                 !globalGetter ? nullptr : new GlobalGetterType( globalGetter ),
                 !setter ? nullptr : new GlobalSetterType(
                     reinterpret_cast<typename GlobalSetterType::Signature>( setter )
@@ -86,7 +86,7 @@ namespace ursine
 
             Global global {
                 name,
-                typeof( GlobalType ),
+                meta_typeof( GlobalType ),
                 !globalGetter ? nullptr : new GlobalGetterType( globalGetter ),
                 !globalSetter ? nullptr : new GlobalSetterType( globalSetter )
             };

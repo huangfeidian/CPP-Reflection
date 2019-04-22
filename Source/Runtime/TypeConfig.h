@@ -12,7 +12,7 @@
 #include <type_traits>
 
 // Gets the type ID of a given expression
-#define typeidof(expr)                                            \
+#define meta_typeidof(expr)                                            \
     ursine::meta::TypeIDs<                                        \
         ursine::meta::CleanedType<                                \
             typename ursine::meta_traits::RemoveArray<expr>::type \
@@ -20,14 +20,14 @@
     >::ID                                                         \
 
 // Converts the expression into a meta::Type instance
-#define typeof(expr)                              \
+#define meta_typeof(expr)                              \
     ursine::meta::Type(                           \
-        typeidof( expr ),                         \
+        meta_typeidof( expr ),                         \
         ursine::meta_traits::IsArray<expr>::value \
     )                                             \
 
 // Converts the resulting type of the given expression to a meta::Type instance
-#define decltypeof(expr) typeof( decltype( expr ) )
+#define meta_decltypeof(expr) meta_typeof( decltype( expr ) )
 
 namespace ursine
 {
