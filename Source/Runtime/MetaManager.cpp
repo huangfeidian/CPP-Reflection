@@ -97,7 +97,7 @@ namespace ursine
 
         Json MetaManager::SerializeJson(void) const
         {
-            Json::object object { };
+            Json object { };
 
             for (auto &property : m_properties)
             {

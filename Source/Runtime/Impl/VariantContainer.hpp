@@ -136,7 +136,7 @@ namespace ursine
         }
 
         template<typename T>
-        void VariantContainer<T>::OnSerialize(Json::object &output) const
+        void VariantContainer<T>::OnSerialize(Json &output) const
         {
             onSerialize( output );
         }
@@ -179,7 +179,7 @@ namespace ursine
         template<typename T>
         template<typename U>
         void VariantContainer<T>::onSerialize(
-            Json::object &output, 
+            Json &output, 
             typename std::enable_if<
                 !std::is_pointer<U>::value && std::is_base_of<Object, U>::value
             >::type*
@@ -191,7 +191,7 @@ namespace ursine
         template<typename T>
         template<typename U>
         void VariantContainer<T>::onSerialize(
-            Json::object &output,
+            Json &output,
             typename std::enable_if<
             std::is_pointer<U>::value || !std::is_base_of<Object, U>::value
             >::type*

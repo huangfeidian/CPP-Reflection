@@ -25,7 +25,7 @@ namespace ursine
             virtual Type GetType(void) const = 0;
             virtual Object *Clone(void) const = 0;
 
-            virtual void OnSerialize(Json::object &output) const { }
+            virtual void OnSerialize(Json &output) const { }
             virtual void OnDeserialize(const Json &input) { }
         };
     }

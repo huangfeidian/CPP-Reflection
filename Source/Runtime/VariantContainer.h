@@ -51,7 +51,7 @@ namespace ursine
 
             VariantBase *Clone(void) const override;
 
-            void OnSerialize(Json::object &output) const override;
+            void OnSerialize(Json &output) const override;
             void OnDeserialize(const Json &input) override;
         private:
             friend class Variant;
@@ -81,7 +81,7 @@ namespace ursine
 
             template<typename U = T>
             void onSerialize(
-                Json::object &output,
+                Json &output,
                 typename std::enable_if<
                     !std::is_pointer<U>::value && std::is_base_of<Object, U>::value
                 >::type* = nullptr
@@ -89,7 +89,7 @@ namespace ursine
 
             template<typename U = T>
             void onSerialize(
-                Json::object &output,
+                Json &output,
                 typename std::enable_if<
                     std::is_pointer<U>::value || !std::is_base_of<Object, U>::value
                 >::type* = nullptr

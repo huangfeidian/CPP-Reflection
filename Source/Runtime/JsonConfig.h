@@ -1,8 +1,8 @@
 #pragma once
 
-#include <json11.hpp>
+#include <nlohmann/json.hpp>
 
 namespace ursine
 {
-    using Json = json11::Json;
+	using Json = nlohmann::json;
 }

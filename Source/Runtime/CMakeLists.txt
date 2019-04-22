@@ -122,12 +122,15 @@ set(SOURCE_FILES
     VariantBase.cpp
 )
 
-set(JSON_SOURCE_FILE "../Common/Lib/json11.cpp")
+
 
 # allow use of Common and Library directories
 include_directories(..)
 include_directories(../Common)
 include_directories(../Common/Lib)
+
+# add json support
+find_package(nlohmann_json CONFIG REQUIRED)
 
 # header files are superflous, but some IDEs (Visual Studio) don't include
 # them in the solution explorer without them being added to the list of sources
@@ -135,21 +138,18 @@ add_library(MetaRuntime STATIC
     ${HEADER_FILES} 
     ${SOURCE_FILES}
 
-    # compile the JSON library
-    ${JSON_SOURCE_FILE}
+
 )
+target_link_libraries(MetaRuntime PRIVATE nlohmann_json::nlohmann_json)
 
 set_precompiled_header(MetaRuntime 
     Precompiled.h 
     Precompiled.cpp
 )
 
+
+
 if (MSVC)
-    # set JSON source file to ignore the precompiled header use on MSVC
-    set_source_files_properties(
-        ${JSON_SOURCE_FILE} 
-        PROPERTIES COMPILE_FLAGS /Y-
-    )
 
     target_compile_options(MetaRuntime 
         PUBLIC
@@ -161,7 +161,7 @@ if (MSVC)
 else ()
     target_compile_options(MetaRuntime 
         PUBLIC
-        -std=c++11
+        -std=c++17
         -Wno-format-security
     )
 endif ()

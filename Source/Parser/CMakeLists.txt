@@ -79,6 +79,7 @@ find_package(Boost 1.59.0 REQUIRED
     program_options
 )
 
+
 # add boost includes
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -86,6 +87,10 @@ find_package(LLVM REQUIRED)
 
 # add LLVM includes
 include_directories(${LLVM_INCLUDE_DIRS})
+
+# add json support
+find_package(nlohmann_json CONFIG REQUIRED)
+
 
 # allow use of Common and Library directories
 include_directories(.)
@@ -101,6 +106,7 @@ link_directories(${LLVM_LIBRARY_DIR})
 
 # statically link with Boost & LibClang
 target_link_libraries(MetaParser ${Boost_LIBRARIES} ${LIBCLANG_LIBRARY})
+target_link_libraries(MetaParser PRIVATE nlohmann_json::nlohmann_json)
 
 set_precompiled_header(MetaParser Precompiled.h Precompiled.cpp)
 
@@ -136,7 +142,7 @@ if (MSVC)
     string(REPLACE "\\" "/" SYSTEM_INCLUDES "${SYSTEM_INCLUDES}")
 else ()
     target_compile_options(MetaParser
-        PUBLIC -std=c++11
+        PUBLIC -std=c++17
     )
 
     set(SYSTEM_INCLUDES "/usr/include/c++/${CMAKE_CXX_COMPILER_VERSION}")

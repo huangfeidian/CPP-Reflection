@@ -37,7 +37,7 @@ namespace ursine
 
             virtual VariantBase *Clone(void) const = 0;
 
-            virtual void OnSerialize(Json::object &output) const { }
+            virtual void OnSerialize(Json &output) const { }
             virtual void OnDeserialize(const Json &input) { }
         };
     }

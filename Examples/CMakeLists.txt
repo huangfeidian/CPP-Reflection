@@ -9,6 +9,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../Source/CMake")
 
 include(MetaParser)
 
+# add json support
+find_package(nlohmann_json CONFIG REQUIRED)
+
 include_directories(${META_RUNTIME_INCLUDE_DIRS})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

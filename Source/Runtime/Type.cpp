@@ -527,7 +527,7 @@ namespace ursine
 
             if (m_isArray)
             {
-                Json::array array;
+                Json array = Json::array();
 
                 auto wrapper = instance.GetArray( );
                 auto size = wrapper.Size( );
@@ -572,7 +572,7 @@ namespace ursine
                 return { instance.ToString( ) };
             }
             
-            Json::object object { };
+            Json object { };
 
             auto &fields = gDatabase.types[ m_id ].fields;
 
@@ -582,7 +582,7 @@ namespace ursine
 
                 auto json = value.SerializeJson( );
 
-                value.m_base->OnSerialize( const_cast<Json::object&>( json.object_items( ) ) );
+                value.m_base->OnSerialize( const_cast<Json&>(json));
 
                 object[ field.GetName( ) ] = json;
             }
@@ -607,7 +607,7 @@ namespace ursine
 
             if (IsArray( ))
             {
-                Json::array array;
+                Json array = Json::array();
 
                 auto wrapper = instance.GetArray( );
                 auto size = wrapper.Size( );
@@ -652,7 +652,7 @@ namespace ursine
                 return { instance.ToString( ) };
             }
             
-            Json::object object { };
+            Json object = Json::object();
 
             auto &fields = gDatabase.types[ m_id ].fields;
 
@@ -662,7 +662,7 @@ namespace ursine
 
                 auto json = value.SerializeJson( );
 
-                value.m_base->OnSerialize( const_cast<Json::object&>( json.object_items( ) ) );
+                value.m_base->OnSerialize(json);
 
                 object[ field.GetName( ) ] = json;
             }
@@ -708,7 +708,7 @@ namespace ursine
 
                 size_t i = 0;
 
-                for (auto &item : value.array_items( ))
+                for (auto &item : value)
                 {
                     wrapper.Insert( 
                         i++, 
@@ -722,24 +722,24 @@ namespace ursine
             else if (IsPrimitive( ))
             {
                 if (*this == typeof( int ))
-                    return { value.int_value( ) };
+                    return { value.get<int>( ) };
                 else if (*this == typeof( unsigned int ))
-                    return { static_cast<unsigned int>( value.number_value( ) ) };
+                    return { static_cast<unsigned int>( value.get<unsigned int>() ) };
                 else if (*this == typeof( bool ))
-                    return { value.bool_value( ) };
+                    return { value.get<bool>() };
                 else if (*this == typeof( float ))
-                    return { static_cast<float>( value.number_value( ) ) };
+                    return { static_cast<float>( value.get<float>( ) ) };
                 else if (*this == typeof( double ))
-                    return { value.number_value( ) };
+                    return { value.get<double>( ) };
             }
             else if (IsEnum( ))
             {
                 // number literal
                 if (value.is_number( ))
-                    return { value.int_value( ) };
+                    return { value.get<int>( ) };
 
                 // associative value
-                auto enumValue = GetEnum( ).GetValue( value.string_value( ) );
+                auto enumValue = GetEnum( ).GetValue( value.get<std::string>( ) );
 
                 // make sure we can find the key
                 if (enumValue.IsValid( ))
@@ -750,7 +750,7 @@ namespace ursine
             }
             else if (*this == typeof( std::string ))
             {
-                return { value.string_value( ) };
+                return { value.get<std::string>() };
             }
 
             // @@@TODO: forward arguments to constructor

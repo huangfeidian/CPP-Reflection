@@ -162,7 +162,7 @@ void parse(const po::variables_map &cmdLine)
     { {
         "-x",
         "c++",
-        "-std=c++11",
+        "-std=c++17",
         "-D__REFLECTION_PARSER__"
     } };
 
