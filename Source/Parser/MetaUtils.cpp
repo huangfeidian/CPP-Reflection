@@ -133,7 +133,7 @@ namespace utils
         output.close( );
     }
 
-    boost::filesystem::path MakeRelativePath(const boost::filesystem::path &from, const boost::filesystem::path &to)
+    std::filesystem::path MakeRelativePath(const std::filesystem::path &from, const std::filesystem::path &to)
     {
         // Start at the root path and while they are the same then do nothing then when they first
         // diverge take the remainder of the two path and replace the entire from path with ".."
@@ -148,7 +148,7 @@ namespace utils
             ++itFrom;
         }
 
-        boost::filesystem::path finalPath;
+        std::filesystem::path finalPath;
 
         while (itFrom != from.end( ))
         {

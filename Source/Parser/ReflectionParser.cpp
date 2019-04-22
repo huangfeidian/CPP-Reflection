@@ -175,8 +175,9 @@ void ReflectionParser::GenerateFiles(void)
             continue;
 
         auto outputFile = outputFileDirectory / relativeDir;
-        auto outputFileHeader = change_extension( outputFile, "Generated.h" );
-        auto outputFileSource = change_extension( outputFile, "Generated.cpp" );
+
+        auto outputFileHeader = std::filesystem::path(outputFile).replace_extension("Generated.h");
+        auto outputFileSource = std::filesystem::path(outputFile).replace_extension("Generated.cpp");
 
         // module file name
         file.second.name = std::regex_replace(
@@ -497,6 +498,7 @@ void ReflectionParser::generateModuleFile(
     const ModuleFile &file
 )
 {
+	std::cerr << "generateModuleFile for fileHeader " << fileHeader << " fileSource " << fileSource << " SourceHeader " << sourceHeader <<" module file "<<file.name<< std::endl;
     // header file
     {
         TemplateData headerData { TemplateData::Type::Object };

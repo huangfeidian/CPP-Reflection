@@ -32,9 +32,9 @@ namespace utils
     void LoadText(const std::string &filename, std::string &output);
     void WriteText(const std::string &filename, const std::string &text);
 
-    boost::filesystem::path MakeRelativePath(
-        const boost::filesystem::path &from, 
-        const boost::filesystem::path &to
+    std::filesystem::path MakeRelativePath(
+        const std::filesystem::path &from, 
+        const std::filesystem::path &to
     );
 
     void FatalError(const std::string &error);

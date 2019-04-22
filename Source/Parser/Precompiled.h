@@ -12,10 +12,10 @@
 #include <unordered_set>
 
 #include <functional>
+#include <filesystem>
 
 #include <clang-c/Index.h>
 
-#include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
 #include "MetaUtils.h"
@@ -26,5 +26,5 @@
 using MustacheTemplate = Mustache::Mustache<std::string>;
 using TemplateData = Mustache::Data<std::string>;
 
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;
 namespace po = boost::program_options;
