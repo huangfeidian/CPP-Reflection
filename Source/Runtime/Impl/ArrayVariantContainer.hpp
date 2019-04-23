@@ -22,7 +22,7 @@ namespace ursine
         template<typename T, typename StorageType>
         Type ArrayVariantContainer<T, StorageType>::GetType(void) const
         {
-            return typeof( Array<T> );
+            return meta_typeof( Array<T> );
         }
 
         template<typename T, typename StorageType>

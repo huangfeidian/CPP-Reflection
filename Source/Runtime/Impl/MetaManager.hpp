@@ -19,7 +19,7 @@ namespace ursine
                 "Type must be a MetaProperty." 
             );
             
-            static const auto type = typeof( PropertyType );
+            static const auto type = meta_typeof( PropertyType );
 
             auto search = m_properties.find( type );
 

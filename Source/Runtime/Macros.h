@@ -35,7 +35,7 @@
     #define META_OBJECT                                  \
         ursine::meta::Type GetType(void) const override  \
         {                                                \
-            return typeof( decltype( *this ) );          \
+            return meta_typeof( decltype( *this ) );          \
         }                                                \
         ursine::meta::Object *Clone(void) const override \
         {                                                \

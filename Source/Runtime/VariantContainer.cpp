@@ -28,7 +28,7 @@ namespace ursine
 
         Type VariantContainer<void>::GetType(void) const
         {
-            return typeof( void );
+            return meta_typeof( void );
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ namespace ursine
 
         Type VariantContainer<int>::GetType(void) const
         {
-            return typeof( int );
+            return meta_typeof( int );
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -180,7 +180,7 @@ namespace ursine
 
         Type VariantContainer<unsigned>::GetType(void) const
         {
-            return typeof( unsigned );
+            return meta_typeof( unsigned );
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -258,7 +258,7 @@ namespace ursine
 
         Type VariantContainer<bool>::GetType(void) const
         {
-            return typeof( bool );
+            return meta_typeof( bool );
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -336,7 +336,7 @@ namespace ursine
 
         Type VariantContainer<float>::GetType(void) const
         {
-            return typeof( float );
+            return meta_typeof( float );
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -414,7 +414,7 @@ namespace ursine
 
         Type VariantContainer<double>::GetType(void) const
         {
-            return typeof( double );
+            return meta_typeof( double );
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -496,7 +496,7 @@ namespace ursine
 
         Type VariantContainer<std::string>::GetType(void) const
         {
-            return typeof( std::string );
+            return meta_typeof( std::string );
         }
 
         ///////////////////////////////////////////////////////////////////////

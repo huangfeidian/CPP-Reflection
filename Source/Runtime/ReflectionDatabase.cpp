@@ -27,7 +27,7 @@
 
 #define REGISTER_NATIVE_TYPE_VARIANTS_W_ARRAY(type)         \
     REGISTER_NATIVE_TYPE_VARIANTS( type )                   \
-    types[ typeidof( type ) ].SetArrayConstructor<type>( ); \
+    types[ meta_typeidof( type ) ].SetArrayConstructor<type>( ); \
 
 namespace ursine
 {
@@ -49,7 +49,7 @@ namespace ursine
             REGISTER_NATIVE_TYPE_VARIANTS_W_ARRAY( double );
             REGISTER_NATIVE_TYPE_VARIANTS_W_ARRAY( std::string );
 
-            auto &stringType = types[ typeidof( std::string ) ];
+            auto &stringType = types[ meta_typeidof( std::string ) ];
 
             // explicitly add default constructors for string
 

@@ -544,7 +544,7 @@ namespace ursine
                 return array;
             }
 
-            if (*this == typeof( bool ))
+            if (*this == meta_typeof( bool ))
             {
                 return { instance.ToBool( ) };
             }
@@ -567,7 +567,7 @@ namespace ursine
                 return GetEnum( ).GetKey( instance );
             }
 
-            if (*this == typeof( std::string ))
+            if (*this == meta_typeof( std::string ))
             {
                 return { instance.ToString( ) };
             }
@@ -624,7 +624,7 @@ namespace ursine
                 return array;
             }
 
-            if (*this == typeof( bool ))
+            if (*this == meta_typeof( bool ))
             {
                 return { instance.ToBool( ) };
             }
@@ -647,7 +647,7 @@ namespace ursine
                 return GetEnum( ).GetKey( instance );
             }
 
-            if (*this == typeof( std::string ))
+            if (*this == meta_typeof( std::string ))
             {
                 return { instance.ToString( ) };
             }
@@ -721,15 +721,15 @@ namespace ursine
             // we have to handle all primitive types explicitly
             else if (IsPrimitive( ))
             {
-                if (*this == typeof( int ))
+                if (*this == meta_typeof( int ))
                     return { value.get<int>( ) };
-                else if (*this == typeof( unsigned int ))
+                else if (*this == meta_typeof( unsigned int ))
                     return { static_cast<unsigned int>( value.get<unsigned int>() ) };
-                else if (*this == typeof( bool ))
+                else if (*this == meta_typeof( bool ))
                     return { value.get<bool>() };
-                else if (*this == typeof( float ))
+                else if (*this == meta_typeof( float ))
                     return { static_cast<float>( value.get<float>( ) ) };
-                else if (*this == typeof( double ))
+                else if (*this == meta_typeof( double ))
                     return { value.get<double>( ) };
             }
             else if (IsEnum( ))
@@ -748,7 +748,7 @@ namespace ursine
                 // use the default value as we couldn't find the key
                 return TypeCreator::Create( *this );
             }
-            else if (*this == typeof( std::string ))
+            else if (*this == meta_typeof( std::string ))
             {
                 return { value.get<std::string>() };
             }

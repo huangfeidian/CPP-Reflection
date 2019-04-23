@@ -21,7 +21,7 @@ namespace ursine
                 Invokable::CreateSignature<Args...>( );
 
             Constructor ctor {
-                typeof( ClassType ),
+                meta_typeof( ClassType ),
                 signature,
                 new ConstructorInvoker<ClassType, IsDynamic, IsWrapped, Args...>( ),
                 IsDynamic
@@ -41,7 +41,7 @@ namespace ursine
         void TypeData::SetArrayConstructor(void)
         {
             arrayConstructor = Constructor {
-                typeof( ClassType ),
+                meta_typeof( ClassType ),
                 { },
                 new ConstructorInvoker<Array<ClassType>, false, false>( ),
                 false
@@ -71,8 +71,8 @@ namespace ursine
 
             fields.emplace_back(
                 name,
-                typeof( FieldType ),
-                typeof( ClassType ),
+                meta_typeof( FieldType ),
+                meta_typeof( ClassType ),
                 !methodGetter ? nullptr : new GetterType( methodGetter ),
                 !methodSetter ? nullptr : new SetterType( methodSetter )
             );
@@ -105,8 +105,8 @@ namespace ursine
 
             fields.emplace_back(
                 name,
-                typeof( FieldType ),
-                typeof( ClassType ),
+                meta_typeof( FieldType ),
+                meta_typeof( ClassType ),
                 !methodGetter ? nullptr : new GetterType( methodGetter ),
                 !methodSetter ? nullptr : new SetterType( methodSetter )    
             );
@@ -131,8 +131,8 @@ namespace ursine
 
             fields.emplace_back(
                 name,
-                typeof( FieldType ),
-                typeof( ClassType ),
+                meta_typeof( FieldType ),
+                meta_typeof( ClassType ),
                 !methodGetter ? nullptr : new GetterType( methodGetter ),
                 !fieldSetter ? nullptr : new FieldSetter<ClassType, FieldType, false>( fieldSetter )   
             );
@@ -159,8 +159,8 @@ namespace ursine
 
             fields.emplace_back(
                 name,
-                typeof( FieldType ),
-                typeof( ClassType ),
+                meta_typeof( FieldType ),
+                meta_typeof( ClassType ),
                 !methodGetter ? nullptr : new GetterType( methodGetter ),
                 !fieldSetter ? nullptr : new FieldSetter<ClassType, FieldType, false>( fieldSetter )  
             );
@@ -187,8 +187,8 @@ namespace ursine
 
             fields.emplace_back(
                 name,
-                typeof( FieldType ),
-                typeof( ClassType ),
+                meta_typeof( FieldType ),
+                meta_typeof( ClassType ),
                 !fieldGetter ? nullptr : new FieldGetter<ClassType, FieldType, false>( fieldGetter ),
                 !methodSetter ? nullptr : new SetterType( methodSetter )
             );
@@ -208,8 +208,8 @@ namespace ursine
         {
             fields.emplace_back(
                 name,
-                typeof( FieldType ),
-                typeof( ClassType ),
+                meta_typeof( FieldType ),
+                meta_typeof( ClassType ),
                 !fieldGetter ? nullptr : new FieldGetter<ClassType, FieldType, false>( fieldGetter ),
                 !fieldSetter ? nullptr : new FieldSetter<ClassType, FieldType, false>( fieldSetter ) 
             );
@@ -227,14 +227,14 @@ namespace ursine
 
             staticFields.emplace_back(
                 name,
-                typeof( FieldType ),
+                meta_typeof( FieldType ),
                 !getter ? nullptr : new GlobalGetterType(
                     reinterpret_cast<typename GlobalGetterType::Signature>( getter )
                 ),
                 !setter ? nullptr : new GlobalSetterType(
                     reinterpret_cast<typename GlobalSetterType::Signature>( setter )
                 ),
-                typeof( ClassType )
+                meta_typeof( ClassType )
             );
 
             staticFields.back( ).m_meta = meta;
@@ -250,12 +250,12 @@ namespace ursine
 
             staticFields.emplace_back(
                 name,
-                typeof( FieldType ),
+                meta_typeof( FieldType ),
                 !getter ? nullptr : new GlobalGetterType(
                     reinterpret_cast<typename GlobalGetterType::Signature>( getter )
                 ),
                 !fieldSetter ? nullptr : new GlobalSetterType( fieldSetter ),
-                typeof( ClassType )
+                meta_typeof( ClassType )
             );
 
             staticFields.back( ).m_meta = meta;
@@ -271,12 +271,12 @@ namespace ursine
 
             staticFields.emplace_back(
                 name,
-                typeof( FieldType ),
+                meta_typeof( FieldType ),
                 !fieldGetter ? nullptr : new GlobalGetterType( fieldGetter ),
                 !setter ? nullptr : new GlobalSetterType(
                     reinterpret_cast<typename GlobalSetterType::Signature>( setter )
                 ),
-                typeof( ClassType )
+                meta_typeof( ClassType )
             );
 
             staticFields.back( ).m_meta = meta;
@@ -292,10 +292,10 @@ namespace ursine
 
             staticFields.emplace_back(
                 name,
-                typeof( FieldType ),
+                meta_typeof( FieldType ),
                 !fieldGetter ? nullptr : new GlobalGetterType( fieldGetter ),
                 !fieldSetter ? nullptr : new GlobalSetterType( fieldSetter ),
-                typeof( ClassType )
+                meta_typeof( ClassType )
             );
 
             staticFields.back( ).m_meta = meta;
@@ -307,7 +307,7 @@ namespace ursine
         void TypeData::SetDestructor(void)
         {
             destructor = {
-                typeof( ClassType ),
+                meta_typeof( ClassType ),
                 new DestructorInvoker<ClassType>( )
             };
         }
@@ -337,7 +337,7 @@ namespace ursine
             const MetaManager::Initializer &meta
         )
         {
-            Function fn( name, function, typeof( ClassType ) );
+            Function fn( name, function, meta_typeof( ClassType ) );
 
             fn.m_meta = meta;
 
