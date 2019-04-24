@@ -63,37 +63,6 @@ set(HEADER_FILES
     Variant.h
     VariantBase.h
     VariantContainer.h
-    Impl/Array.hpp
-    Impl/EnumContainer.hpp
-    Impl/FieldGetter.hpp
-    Impl/FieldSetter.hpp
-    Impl/Function.hpp
-    Impl/FunctionInvoker.hpp
-    Impl/GlobalGetter.hpp
-    Impl/GlobalSetter.hpp
-    Impl/Invokable.hpp
-    Impl/MetaManager.hpp
-    Impl/MetaProperty.hpp
-    Impl/Method.hpp
-    Impl/MethodInvoker.hpp
-    Impl/ReflectionDatabase.hpp
-    Impl/Type.hpp
-    Impl/TypeCreator.hpp
-    Impl/TypeData.hpp
-    Impl/TypeInfo.hpp
-    Impl/TypeUnpacker.hpp
-    Impl/Variant.hpp
-    Impl/VariantContainer.hpp
-    Impl/VariantContainerStandardTypes.hpp
-    Impl/VoidFunctionInvoker.hpp
-    Impl/VoidMethodInvoker.hpp
-    Impl/Argument.hpp
-    Impl/ArrayVariantContainer.hpp
-    Impl/ArrayWrapper.hpp
-    Impl/ArrayWrapperContainer.hpp
-    Impl/Constructor.hpp
-    Impl/ConstructorInvoker.hpp
-    Impl/DestructorInvoker.hpp
 )
 
 set(SOURCE_FILES

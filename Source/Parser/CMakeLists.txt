@@ -38,10 +38,6 @@ set(HEADER_FILES
     Tokenizer/Token.h
     Tokenizer/Tokenizer.h
     Tokenizer/ConstructorTokenSymbols.inl
-    Tokenizer/Impl/TokenizerResult.hpp
-    Tokenizer/Impl/TokenizerState.hpp
-    Tokenizer/Impl/Token.hpp
-    Tokenizer/Impl/Tokenizer.hpp
 )
 
 set(SOURCE_FILES

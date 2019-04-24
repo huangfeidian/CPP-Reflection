@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** MetaProperty.h
@@ -21,6 +21,15 @@ namespace ursine
 
         template<typename PropertyType, typename ...Args>
         MetaProperty *MetaPropertyInitializer(Args&&... args);
+
+		template<typename PropertyType, typename ...Args>
+		MetaProperty *MetaPropertyInitializer(Args&&... args)
+		{
+			static_assert(std::is_base_of<MetaProperty, PropertyType>::value,
+				"Meta properties must inherit from MetaProperty");
+
+			return new PropertyType(std::forward<Args>(args)...);
+		}
     } 
 }
 
@@ -160,4 +169,3 @@ public:
 
 #pragma endregion
 
-#include "Impl/MetaProperty.hpp"

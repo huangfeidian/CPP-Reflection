@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** MetaManager.h
@@ -58,7 +58,24 @@ namespace ursine
 
             std::map<Type, const MetaProperty *> m_properties;
         };
+
+		template<typename PropertyType>
+		const PropertyType *MetaManager::GetProperty(void) const
+		{
+			static_assert(std::is_base_of<MetaProperty, PropertyType>::value,
+				"Type must be a MetaProperty."
+				);
+
+			static const auto type = meta_typeof(PropertyType);
+
+			auto search = m_properties.find(type);
+
+			// doesn't exist
+			if (search == m_properties.end())
+				return nullptr;
+
+			return static_cast<const PropertyType*>(search->second);
+		}
     }
 }
 
-#include "Impl/MetaManager.hpp"

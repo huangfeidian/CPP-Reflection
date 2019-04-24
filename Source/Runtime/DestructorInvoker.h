@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** DestructorInvoker.h
@@ -18,7 +18,12 @@ namespace ursine
         public:
             void Invoke(const Variant &obj) override;
         };
+		template<typename ClassType>
+		void DestructorInvoker<ClassType>::Invoke(const Variant& obj)
+		{
+			auto &instance = obj.GetValue<ClassType>();
+
+			instance.~ClassType();
+		}
     }
 }
-
-#include "Impl/DestructorInvoker.hpp"

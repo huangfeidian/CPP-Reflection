@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** TypeCreator.cpp
@@ -7,6 +7,8 @@
 #include "Precompiled.h"
 
 #include "TypeCreator.h"
+
+#include "Constructor.h"
 
 namespace ursine
 {

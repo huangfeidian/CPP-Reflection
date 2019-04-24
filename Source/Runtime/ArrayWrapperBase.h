@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ArrayWrapperBase.h
@@ -7,12 +7,12 @@
 #pragma once
 
 #include "Array.h"
+#include "Variant.h"
 
 namespace ursine
 {
     namespace meta
     {
-        class Variant;
         class Argument;
 
         class ArrayWrapperBase

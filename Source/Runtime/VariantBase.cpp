@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** VariantBase.cpp
@@ -19,10 +19,10 @@ namespace ursine
             return false;
         }
 
-        ArrayWrapper VariantBase::GetArray(void) const
+        void VariantBase::GetArray(ArrayWrapper& _wrapper) const
         {
             // invalid wrapper
-            return { };
+			return;
         }
     }
 }

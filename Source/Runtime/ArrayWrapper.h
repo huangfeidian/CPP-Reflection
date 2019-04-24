@@ -7,13 +7,13 @@
 #pragma once
 
 #include "ArrayWrapperBase.h"
+#include "ArrayWrapperContainer.h"
 
 namespace ursine
 {
     namespace meta
     {
         class Argument;
-
         class ArrayWrapper
         {
 			// 这个类型好像没啥大用
@@ -28,7 +28,7 @@ namespace ursine
             template<typename T>
             ArrayWrapper(const Array<T> &rhs);
 
-            Variant GetValue(size_t index) const;
+			Variant GetValue(size_t index) const;
             void SetValue(size_t index, const Argument &value);
 
             void Insert(size_t index, const Argument &value);
@@ -43,7 +43,21 @@ namespace ursine
 
             ArrayWrapperBase *m_base;
         };
+
+		template<typename T>
+		ArrayWrapper::ArrayWrapper(Array<T> &rhs)
+			: m_isConst(false)
+			, m_base(new ArrayWrapperContainer<T>(rhs))
+		{
+
+		}
+
+		template<typename T>
+		ArrayWrapper::ArrayWrapper(const Array<T> &rhs)
+			: m_isConst(true)
+			, m_base(new ArrayWrapperContainer<T>(const_cast<Array<T> &>(rhs)))
+		{
+
+		}
     }
 }
-
-#include "Impl/ArrayWrapper.hpp"

@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Variant.cpp
@@ -61,9 +61,13 @@ namespace ursine
             return m_base ? m_base->GetType( ) : Type::Invalid( );
         }
 
-        ArrayWrapper Variant::GetArray(void) const
+        void Variant::GetArray(ArrayWrapper& _wrapper) const
         {
-            return m_base ? m_base->GetArray( ) : ArrayWrapper( );
+			if (m_base)
+			{
+				m_base->GetArray(_wrapper);
+			}
+			return;
         }
 
         int Variant::ToInt(void) const

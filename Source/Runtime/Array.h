@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ArrayConfig.h
@@ -23,9 +23,26 @@
 //        Array(const std::initializer_list<T> &rhs);
 //        Array(const std::initializer_list<T> &&rhs);
 //    };
+//	template<typename T>
+//	Array<T>::Array(void) { }
+//
+//	template<typename T>
+//	Array<T>::Array(const std::vector<T> &rhs)
+//		: std::vector<T>(rhs) { }
+//
+//	template<typename T>
+//	Array<T>::Array(const std::vector<T> &&rhs)
+//		: std::vector<T>(std::move(rhs)) { }
+//
+//	template<typename T>
+//	Array<T>::Array(const std::initializer_list<T> &rhs)
+//		: std::vector<T>(rhs) { }
+//
+//	template<typename T>
+//	Array<T>::Array(const std::initializer_list<T> &&rhs)
+//		: std::vector<T>(std::move(rhs)) { }
 //}
 //
-//#include "Impl/Array.hpp"
 namespace ursine
 {
 	template <typename T>

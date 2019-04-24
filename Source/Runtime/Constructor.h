@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Constructor.h
@@ -59,7 +59,12 @@ namespace ursine
 
             std::shared_ptr<ConstructorInvokerBase> m_invoker;
         };
+		template<typename ...Args>
+		Variant Constructor::Invoke(Args &&...args) const
+		{
+			ArgumentList arguments{ std::forward<Args>(args)... };
+
+			return InvokeVariadic(arguments);
+		}
     }
 }
-
-#include "Impl/Constructor.hpp"

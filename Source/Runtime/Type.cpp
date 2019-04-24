@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Type.cpp
@@ -528,8 +528,8 @@ namespace ursine
             if (m_isArray)
             {
                 Json array = Json::array();
-
-                auto wrapper = instance.GetArray( );
+				ArrayWrapper wrapper;
+                instance.GetArray(wrapper);
                 auto size = wrapper.Size( );
 
                 for (size_t i = 0; i < size; ++i)
@@ -608,8 +608,8 @@ namespace ursine
             if (IsArray( ))
             {
                 Json array = Json::array();
-
-                auto wrapper = instance.GetArray( );
+				ArrayWrapper wrapper;
+                instance.GetArray(wrapper);
                 auto size = wrapper.Size( );
 
                 for (size_t i = 0; i < size; ++i)
@@ -704,7 +704,8 @@ namespace ursine
                 );
 
                 auto instance = arrayCtor.Invoke( );
-                auto wrapper = instance.GetArray( );
+				ArrayWrapper wrapper;
+                instance.GetArray(wrapper);
 
                 size_t i = 0;
 
