@@ -10,14 +10,22 @@
 
 namespace ursine
 {
-    namespace meta
-    {
-        template<typename ClassType>
-        class DestructorInvoker : public DestructorInvokerBase
-        {
-        public:
-            void Invoke(const Variant &obj) override;
-        };
+	namespace meta
+	{
+		template<typename ClassType>
+		class DestructorInvoker : public DestructorInvokerBase
+		{
+		public:
+			void Invoke(const Variant &obj) override;
+		};
+	}
+}
+#include "Variant.h"
+namespace ursine
+{
+	namespace meta
+	{
+
 		template<typename ClassType>
 		void DestructorInvoker<ClassType>::Invoke(const Variant& obj)
 		{

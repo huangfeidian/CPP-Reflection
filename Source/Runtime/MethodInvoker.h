@@ -102,7 +102,7 @@ namespace ursine
 			template<typename X, typename... args>
 			void invoke(Variant &obj, const ArgumentList &arguments)
 			{
-				return invoke_impl<X, args...>(obj, arguments, std::index_sequence_for<args...>{})
+				invoke_impl<X, args...>(obj, arguments, std::index_sequence_for<args...>{});
 			}
 
 			template<typename X, typename... args, size_t... arg_idxes>

@@ -7,43 +7,48 @@
 #pragma once
 
 #include "ArrayWrapperBase.h"
-#include "ArrayWrapperContainer.h"
 
 namespace ursine
 {
-    namespace meta
-    {
-        class Argument;
-        class ArrayWrapper
-        {
+	namespace meta
+	{
+		class Argument;
+		class ArrayWrapper
+		{
 			// 这个类型好像没啥大用
 			// 除了提供初始化 get set insert remove 五个接口之外
 			// 居然还用标记位来标明是否是const的
-        public:
-            ArrayWrapper(void);
+		public:
+			ArrayWrapper(void);
 
-            template<typename T>
-            ArrayWrapper(Array<T> &rhs);
+			template<typename T>
+			ArrayWrapper(Array<T> &rhs);
 
-            template<typename T>
-            ArrayWrapper(const Array<T> &rhs);
+			template<typename T>
+			ArrayWrapper(const Array<T> &rhs);
 
 			Variant GetValue(size_t index) const;
-            void SetValue(size_t index, const Argument &value);
+			void SetValue(size_t index, const Argument &value);
 
-            void Insert(size_t index, const Argument &value);
-            void Remove(size_t index);
+			void Insert(size_t index, const Argument &value);
+			void Remove(size_t index);
 
-            size_t Size(void) const;
+			size_t Size(void) const;
 
-            bool IsValid(void) const;
-            bool IsConst(void) const;
-        private:
-            bool m_isConst;
+			bool IsValid(void) const;
+			bool IsConst(void) const;
+		private:
+			bool m_isConst;
 
-            ArrayWrapperBase *m_base;
-        };
-
+			ArrayWrapperBase *m_base;
+		};
+	}
+}
+#include "ArrayWrapperContainer.h"
+namespace ursine
+{
+	namespace meta
+	{
 		template<typename T>
 		ArrayWrapper::ArrayWrapper(Array<T> &rhs)
 			: m_isConst(false)

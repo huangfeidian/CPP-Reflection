@@ -1,15 +1,15 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** EnumBase.h
 ** --------------------------------------------------------------------------*/
 
 #pragma once
-
-#include "Type.h"
-
 #include <string>
 #include <vector>
+#include "Type.h"
+
+
 
 namespace ursine
 {

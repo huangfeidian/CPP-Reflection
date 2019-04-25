@@ -5,7 +5,7 @@
 ** --------------------------------------------------------------------------*/
 
 #pragma once
-
+#include <memory>
 #include "MetaContainer.h"
 #include "Invokable.h"
 
@@ -13,7 +13,7 @@
 
 #include "ConstructorInvoker.h"
 
-#include <memory>
+
 
 namespace ursine
 {
@@ -59,6 +59,9 @@ namespace ursine
 
             std::shared_ptr<ConstructorInvokerBase> m_invoker;
         };
+
+#include "Variant.h"
+#include "Argument.h"
 		template<typename ...Args>
 		Variant Constructor::Invoke(Args &&...args) const
 		{

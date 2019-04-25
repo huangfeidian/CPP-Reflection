@@ -11,6 +11,7 @@
 #include "Variant.h"
 
 #include <unordered_map>
+#include <string>
 
 namespace ursine
 {
@@ -83,7 +84,7 @@ namespace ursine
 		template<typename EnumType>
 		Type EnumContainer<EnumType>::GetType(void) const
 		{
-			return typeof(EnumType);
+			return meta_typeof(EnumType);
 		}
 
 		///////////////////////////////////////////////////////////////////////
@@ -91,7 +92,7 @@ namespace ursine
 		template<typename EnumType>
 		Type EnumContainer<EnumType>::GetUnderlyingType(void) const
 		{
-			return typeof(typename std::underlying_type<EnumType>::type);
+			return meta_typeof(typename std::underlying_type<EnumType>::type);
 		}
 
 		///////////////////////////////////////////////////////////////////////
@@ -126,8 +127,8 @@ namespace ursine
 			auto type = value.GetType();
 
 			// invalid type
-			if (type != typeof(EnumType) &&
-				type != typeof(UnderlyingType))
+			if (type != meta_typeof(EnumType) &&
+				type != meta_typeof(UnderlyingType))
 			{
 				return std::string();
 			}

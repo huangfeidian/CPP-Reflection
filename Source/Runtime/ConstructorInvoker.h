@@ -5,34 +5,38 @@
 ** --------------------------------------------------------------------------*/
 
 #pragma once
+#include <utility>
 
 #include "ConstructorInvokerBase.h"
-
-#include "Variant.h"
 
 #include "Logging.h"
 
 namespace ursine
 {
-    namespace meta
-    {
-        class Variant;
-        class Argument;
+	namespace meta
+	{
+		class Variant;
+		class Argument;
 
-        template<typename ClassType, bool IsDynamic, bool IsObjectWrapped, typename ...ArgTypes>
-        class ConstructorInvoker : public ConstructorInvokerBase
-        {
-        public:
-            static_assert( THIS_ARG_COUNT <= MaxArgumentCount,
-                "Constructor has too many arguments. It's time to generate more overloads." 
-            );
+		template<typename ClassType, bool IsDynamic, bool IsObjectWrapped, typename ...ArgTypes>
+		class ConstructorInvoker : public ConstructorInvokerBase
+		{
+		public:
+			static_assert(THIS_ARG_COUNT <= MaxArgumentCount,
+				"Constructor has too many arguments. It's time to generate more overloads."
+				);
 
-            Variant Invoke(const ArgumentList &arguments) override;
-        };
-		////////////////////////////////////////////////////////////////THIS_ARG_COUNT///////
-	   // Non Dynamic
-	   ///////////////////////////////////////////////////////////////////////
-
+			Variant Invoke(const ArgumentList &arguments) override;
+		};
+	}
+}
+#include "Variant.h"
+#include "Argument.h"
+#include "ArgumentConfig.h"
+namespace ursine
+{
+	namespace meta
+	{
 		template<typename ClassType, bool IsObjectWrapped, typename ...ArgTypes>
 		class ConstructorInvoker<ClassType, false, IsObjectWrapped, ArgTypes...> : public ConstructorInvokerBase
 		{
@@ -53,135 +57,15 @@ namespace ursine
 			}
 
 		private:
-			template<typename _>
+			template<typename _, typename... args>
 			Variant invoke(const ArgumentList &arguments) const
 			{
-				return ClassType();
+				return invoke_impl<_, args...>(arguments, std::index_sequence_for<args...>{});
 			}
-
-			template<typename _, typename A1>
-			Variant invoke(const ArgumentList &arguments) const
+			template<typename _, typename... args, size_t... arg_idxes>
+			Variant invoke_impl(const ArgumentList &arguments, std::index_sequence<arg_idxes...>) const
 			{
-				return ClassType(
-					arguments[0].GetValue<A1>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>(),
-					arguments[9].GetValue<A10>()
-				);
+				return ClassType(arguments[arg_idxes].GetValue<args>()...);
 			}
 		};
 
@@ -210,136 +94,18 @@ namespace ursine
 			}
 
 		private:
-			template<typename _>
+			template<typename _, typename... args>
 			Variant invoke(const ArgumentList &arguments) const
 			{
-				return new ClassType();
+				return invoke_impl<_, args...>(arguments, std::index_sequence_for<args...>{});
+			}
+			template<typename _, typename... args, size_t... arg_idxes>
+			Variant invoke_impl(const ArgumentList &arguments, std::index_sequence<arg_idxes...>) const
+			{
+				return ClassType(arguments[arg_idxes].GetValue<args>()...);
 			}
 
-			template<typename _, typename A1>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>(),
-					arguments[9].GetValue<A10>()
-				);
-			}
+			
 		};
 
 		///////////////////////////////////////////////////////////////////////
@@ -366,135 +132,15 @@ namespace ursine
 			}
 
 		private:
-			template<typename _>
+			template<typename _, typename... args>
 			Variant invoke(const ArgumentList &arguments) const
 			{
-				return ObjectVariant(new ClassType());
+				return invoke_impl<_, args>(arguments, std::index_sequence_for<args...>{});
 			}
-
-			template<typename _, typename A1>
-			Variant invoke(const ArgumentList &arguments) const
+			template<typename _, typename... args, size_t... arg_idxes>
+			Variant invoke_impl(const ArgumentList &arguments, std::index_sequence<arg_idxes...>) const
 			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>()
-				));
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10>
-			Variant invoke(const ArgumentList &arguments) const
-			{
-				return ObjectVariant(new ClassType(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>(),
-					arguments[9].GetValue<A10>()
-				));
+				return ObjectVariant(new ClassType(arguments[arg_idxes].GetValue<args>()...));
 			}
 		};
     }

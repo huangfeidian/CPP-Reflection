@@ -138,6 +138,7 @@ endif ()
 set(META_RUNTIME_INCLUDE_DIRS 
     "${CMAKE_CURRENT_LIST_DIR}"
     "${CMAKE_CURRENT_LIST_DIR}/../" 
+	"${CMAKE_CURRENT_LIST_DIR}/../Common/"
     "${CMAKE_CURRENT_LIST_DIR}/../Common/Lib"
     CACHE STRING "Location of the runtime include directories."
 )

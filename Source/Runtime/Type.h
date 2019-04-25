@@ -412,6 +412,15 @@ namespace ursine
 			TypeID m_id;
 			bool m_isArray;
 		};
+	}
+}
+
+#include "TypeUnpacker.h"
+#include "Variant.h"
+namespace ursine
+{
+	namespace meta
+	{
 		template<typename T>
 		Type Type::Get(T &&obj)
 		{

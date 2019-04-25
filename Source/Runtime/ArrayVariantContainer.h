@@ -5,10 +5,10 @@
 ** --------------------------------------------------------------------------*/
 
 #pragma once
-
+#include <string>
 #include "VariantBase.h"
 
-#include "ArrayWrapper.h"
+
 
 namespace ursine
 {
@@ -38,6 +38,14 @@ namespace ursine
 		private:
 			StorageType m_array;
 		};
+	}
+}
+
+#include "ArrayWrapper.h"
+namespace ursine
+{
+	namespace meta
+	{
 		template<typename T, typename StorageType>
 		ArrayVariantContainer<T, StorageType>::ArrayVariantContainer(StorageType &rhs)
 			: m_array(rhs)

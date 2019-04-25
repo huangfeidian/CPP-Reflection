@@ -22,205 +22,45 @@ namespace ursine
                 "Function has too many arguments. It's time to generate more overloads." 
             );
 
-            FunctionInvoker(Signature function);
+			FunctionInvoker(Signature function)
+				:m_function(function)
+			{
 
-            Variant Invoke(const ArgumentList &arguments) override;
+			}
+
+			Variant Invoke(const ArgumentList &arguments) override
+			{
+				UAssert(arguments.size() == THIS_ARG_COUNT,
+					"Invalid function arguments.\nExpected %i args but got %i.",
+					THIS_ARG_COUNT,
+					arguments.size()
+				);
+
+				return invoke<void, ArgTypes...>(arguments);
+			}
 
         private:
-            template<typename _>
-            Variant invoke(const ArgumentList &arguments);
+            template<typename _, typename... args>
+			Variant invoke(const ArgumentList &arguments)
+			{
+				return invoke_impl<_, args...>(arguments);
+			}
 
-            template<typename _, typename A1>
-            Variant invoke(const ArgumentList &arguments);
+            template<typename _, typename... args, size_t... arg_idxes>
+			Variant invoke_impl(const ArgumentList &arguments, std::index_sequence<arg_idxes...>)
+			{
+				return m_function(
+					arguments[arg_idxes].GetValue<args>()...
+				);
+			}
 
-            template<typename _, typename A1, typename A2>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9>
-            Variant invoke(const ArgumentList &arguments);
-
-            template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10>
-            Variant invoke(const ArgumentList &arguments);
+			
 
             Signature m_function;
         };
 
 
-		template<typename ReturnType, typename ... ArgTypes>
-		FunctionInvoker<ReturnType, ArgTypes...>::FunctionInvoker(Signature function)
-			: m_function(function) { }
-
-		template<typename ReturnType, typename ... ArgTypes>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::Invoke(const ArgumentList &arguments)
-		{
-			UAssert(arguments.size() == THIS_ARG_COUNT,
-				"Invalid function arguments.\nExpected %i args but got %i.",
-				THIS_ARG_COUNT,
-				arguments.size()
-			);
-
-			return invoke<void, ArgTypes...>(arguments);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function();
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>(),
-				arguments[4].GetValue<A5>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>(),
-				arguments[4].GetValue<A5>(),
-				arguments[5].GetValue<A6>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>(),
-				arguments[4].GetValue<A5>(),
-				arguments[5].GetValue<A6>(),
-				arguments[6].GetValue<A7>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>(),
-				arguments[4].GetValue<A5>(),
-				arguments[5].GetValue<A6>(),
-				arguments[6].GetValue<A7>(),
-				arguments[7].GetValue<A8>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>(),
-				arguments[4].GetValue<A5>(),
-				arguments[5].GetValue<A6>(),
-				arguments[6].GetValue<A7>(),
-				arguments[7].GetValue<A8>(),
-				arguments[8].GetValue<A9>()
-			);
-		}
-
-		template<typename ReturnType, typename ... ArgTypes>
-		template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10>
-		Variant FunctionInvoker<ReturnType, ArgTypes...>::invoke(const ArgumentList &arguments)
-		{
-			return m_function(
-				arguments[0].GetValue<A1>(),
-				arguments[1].GetValue<A2>(),
-				arguments[2].GetValue<A3>(),
-				arguments[3].GetValue<A4>(),
-				arguments[4].GetValue<A5>(),
-				arguments[5].GetValue<A6>(),
-				arguments[6].GetValue<A7>(),
-				arguments[7].GetValue<A8>(),
-				arguments[8].GetValue<A9>(),
-				arguments[9].GetValue<A10>()
-			);
-		}
+		
 
 		template<typename ...ArgTypes>
 		class FunctionInvoker<void, ArgTypes...> : public FunctionInvokerBase
@@ -249,137 +89,19 @@ namespace ursine
 			}
 
 		private:
-			template<typename _>
+			template<typename _, typename... args>
 			void invoke(const ArgumentList &arguments)
 			{
-				m_function();
+				invoke_impl<_, args...>(arguments);
 			}
 
-			template<typename _, typename A1>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2>
-			void invoke(const ArgumentList &arguments)
+			template<typename _, typename... args, size_t... arg_idxes>
+			void invoke_impl(const ArgumentList &arguments, std::index_sequence<arg_idxes...>)
 			{
 				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>()
+					arguments[arg_idxes].GetValue<args>()...
 				);
 			}
-
-			template<typename _, typename A1, typename A2, typename A3>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>()
-				);
-			}
-
-			template<typename _, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6, typename A7, typename A8, typename A9, typename A10>
-			void invoke(const ArgumentList &arguments)
-			{
-				m_function(
-					arguments[0].GetValue<A1>(),
-					arguments[1].GetValue<A2>(),
-					arguments[2].GetValue<A3>(),
-					arguments[3].GetValue<A4>(),
-					arguments[4].GetValue<A5>(),
-					arguments[5].GetValue<A6>(),
-					arguments[6].GetValue<A7>(),
-					arguments[7].GetValue<A8>(),
-					arguments[8].GetValue<A9>(),
-					arguments[9].GetValue<A10>()
-				);
-			}
-
 			Signature m_function;
 		};
     }

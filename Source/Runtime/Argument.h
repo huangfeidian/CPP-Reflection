@@ -5,12 +5,13 @@
 ** --------------------------------------------------------------------------*/
 
 #pragma once
+#include <vector>
 
 #include "TypeConfig.h"
 
 #include "Variant.h"
 
-#include <vector>
+
 
 namespace ursine
 {
