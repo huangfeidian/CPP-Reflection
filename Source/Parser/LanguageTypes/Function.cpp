@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Function.cpp
@@ -9,8 +9,8 @@
 #include "LanguageTypes/Function.h"
 #include "LanguageTypes/Class.h"
 
-#include <boost/format.hpp>
-#include <boost/algorithm/string/join.hpp>
+#include <spdlog/fmt/fmt.h>
+
 
 Function::Function(
     const Cursor &cursor, 
@@ -58,7 +58,6 @@ bool Function::isAccessible(void) const
 
 std::string Function::getQualifiedSignature(void) const
 {
-    auto argsList = boost::join( m_signature, ", " );
 
-    return (boost::format( "%1%(*)(%2%)" ) % m_returnType % argsList).str( );
+	return fmt::format("{0}(*){1}", m_returnType, utils::join(m_signature, ", "));
 }

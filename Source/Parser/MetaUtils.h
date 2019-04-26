@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** MetaUtils.h
@@ -13,6 +13,7 @@
 
 namespace utils
 {
+	std::string join(const std::vector<std::string>& param, const std::string& sep);
     void ToString(const CXString &str, std::string &output);
 
     Mustache::Data<std::string>::Type TemplateBool(bool value);

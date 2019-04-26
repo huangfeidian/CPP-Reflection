@@ -1,15 +1,18 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Constructor.cpp
 ** --------------------------------------------------------------------------*/
 
+#include <spdlog/fmt/fmt.h>
+
 #include "Precompiled.h"
 
 #include "LanguageTypes/Class.h"
 #include "LanguageTypes/Constructor.h"
+#include "MetaUtils.h"
 
-#include <boost/algorithm/string/join.hpp>
+
 
 Constructor::Constructor(
     const Cursor &cursor, 
@@ -82,5 +85,5 @@ std::string Constructor::getTemplateParameters(bool isDynamic) const
     // Args...
     params.insert( params.end( ), m_signature.begin( ), m_signature.end( ) );
 
-    return boost::join( params, ", " );
+    return utils::join(params, ", " );
 }

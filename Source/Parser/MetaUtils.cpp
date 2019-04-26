@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** MetaUtils.cpp
@@ -8,13 +8,27 @@
 
 #include "MetaUtils.h"
 
-#include <boost/algorithm/string/join.hpp>
-
 #include <fstream>
 #include <exception>
 
 namespace utils
 {
+	std::string join(const std::vector<std::string>& param, const std::string& sep)
+	{
+		std::string result = "";
+		for (const auto& one_str : param)
+		{
+			if (result.empty())
+			{
+				result += sep + one_str;
+			}
+			else
+			{
+				result = one_str;
+			}
+		}
+		return result;
+	}
     void ToString(const CXString &str, std::string &output)
     {
         auto cstr = clang_getCString( str );
@@ -53,7 +67,7 @@ namespace utils
             type.GetDisplayName( )
         );
 
-        return boost::join( parentNamespace, "::" );
+        return join(parentNamespace, "::" );
     }
 
     std::string GetQualifiedName(
@@ -61,7 +75,7 @@ namespace utils
         const Namespace &currentNamespace
     )
     {
-        auto name = boost::join( currentNamespace, "::" );
+        auto name = join( currentNamespace, "::" );
 
         if (!currentNamespace.empty( ))
             name += "::";

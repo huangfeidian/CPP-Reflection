@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Method.cpp
@@ -9,8 +9,7 @@
 #include "LanguageTypes/Class.h"
 #include "LanguageTypes/Method.h"
 
-#include <boost/format.hpp>
-#include <boost/algorithm/string/join.hpp>
+#include <spdlog/fmt/fmt.h>
 
 Method::Method(
     const Cursor &cursor, 
@@ -62,13 +61,9 @@ bool Method::isAccessible(void) const
 
 std::string Method::getQualifiedSignature(void) const
 {
-    auto argsList = boost::join( m_signature, ", " );
+    auto argsList = utils::join( m_signature, ", " );
 
     std::string constNess = m_isConst ? " const" : "";
 
-    return (boost::format( "%1%(%2%::*)(%3%)%4%" ) % 
-        m_returnType % 
-        m_parent->m_qualifiedName % 
-        argsList % constNess
-    ).str( );
+	return fmt::format("{0}({1}::*)({2}){3}", m_returnType, m_parent->m_qualifiedName, argsList, constNess);
 }
