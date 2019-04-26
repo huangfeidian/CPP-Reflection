@@ -19,10 +19,10 @@ namespace ursine
             return false;
         }
 
-        void VariantBase::GetArray(ArrayWrapper& _wrapper) const
+		ArrayWrapper VariantBase::GetArray() const
         {
             // invalid wrapper
-			return;
+			return ArrayWrapper();
         }
     }
 }

@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ArgumentConfig.h
@@ -14,6 +14,6 @@ namespace ursine
     {
         class Argument;
 
-        typedef std::vector<Argument> ArgumentList;
+        using ArgumentList = std::vector<Argument>;
     }
 }

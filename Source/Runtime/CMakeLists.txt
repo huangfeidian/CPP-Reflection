@@ -101,6 +101,10 @@ include_directories(../Common/Lib)
 # add json support
 find_package(nlohmann_json CONFIG REQUIRED)
 
+# add log support
+find_package(spdlog CONFIG REQUIRED)
+INCLUDE_DIRECTORIES(${spdlog_include_dirs})
+
 # header files are superflous, but some IDEs (Visual Studio) don't include
 # them in the solution explorer without them being added to the list of sources
 add_library(MetaRuntime STATIC 

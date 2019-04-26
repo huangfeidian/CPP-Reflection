@@ -31,7 +31,7 @@ namespace ursine
 			std::string ToString(void) const override;
 
 			bool IsArray(void) const override;
-			void GetArray(ArrayWrapper& _wrapper) const override;
+			ArrayWrapper GetArray() const override;
 
 			VariantBase *Clone(void) const override;
 
@@ -106,10 +106,9 @@ namespace ursine
 		}
 
 		template<typename T, typename StorageType>
-		void ArrayVariantContainer<T, StorageType>::GetArray(ArrayWrapper& _wrapper) const
+		ArrayWrapper ArrayVariantContainer<T, StorageType>::GetArray() const
 		{
-			_wrapper = ArrayWrapper(const_cast<Array<T>&>(m_array));
-			return;
+			return ArrayWrapper(const_cast<Array<T>&>(m_array));
 		}
 
 		template<typename T, typename StorageType>

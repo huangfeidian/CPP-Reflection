@@ -22,6 +22,7 @@ namespace ursine
 
         class Argument
         {
+			// 函数调用参数的封装
         public:
             Argument(void);
             Argument(const Argument &rhs);
@@ -51,7 +52,7 @@ namespace ursine
         };
 		template<typename T>
 		Argument::Argument(const T &data)
-			: m_typeID(typeidof(T))
+			: m_typeID(meta_typeidof(T))
 			, m_isArray(meta_traits::IsArray<T>::value)
 			, m_data(reinterpret_cast<const void*>(std::addressof(data)))
 		{
@@ -64,7 +65,7 @@ namespace ursine
 
 		template<typename T>
 		Argument::Argument(T &data)
-			: m_typeID(typeidof(T))
+			: m_typeID(meta_typeidof(T))
 			, m_isArray(meta_traits::IsArray<T>::value)
 			, m_data(reinterpret_cast<const void*>(std::addressof(data)))
 		{

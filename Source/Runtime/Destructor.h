@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Destructor.h
@@ -16,6 +16,7 @@ namespace ursine
     {
         class Destructor : public Invokable
         {
+			// 记录一个类及对应的析构函数
         public:
             Destructor(void);
             Destructor(Type classType, DestructorInvokerBase *invoker);

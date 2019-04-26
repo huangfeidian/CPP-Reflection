@@ -528,8 +528,7 @@ namespace ursine
             if (m_isArray)
             {
                 Json array = Json::array();
-				ArrayWrapper wrapper;
-                instance.GetArray(wrapper);
+                auto wrapper = instance.GetArray();
                 auto size = wrapper.Size( );
 
                 for (size_t i = 0; i < size; ++i)
@@ -608,8 +607,7 @@ namespace ursine
             if (IsArray( ))
             {
                 Json array = Json::array();
-				ArrayWrapper wrapper;
-                instance.GetArray(wrapper);
+                auto wrapper = instance.GetArray();
                 auto size = wrapper.Size( );
 
                 for (size_t i = 0; i < size; ++i)
@@ -704,8 +702,7 @@ namespace ursine
                 );
 
                 auto instance = arrayCtor.Invoke( );
-				ArrayWrapper wrapper;
-                instance.GetArray(wrapper);
+                auto wrapper = instance.GetArray();
 
                 size_t i = 0;
 
