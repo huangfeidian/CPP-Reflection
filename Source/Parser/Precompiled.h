@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** Precompiled.h
@@ -16,7 +16,7 @@
 
 #include <clang-c/Index.h>
 
-#include <boost/program_options.hpp>
+
 
 #include "MetaUtils.h"
 #include "MetaDataConfig.h"
@@ -27,4 +27,3 @@ using MustacheTemplate = Mustache::Mustache<std::string>;
 using TemplateData = Mustache::Data<std::string>;
 
 namespace fs = std::filesystem;
-namespace po = boost::program_options;
