@@ -61,15 +61,15 @@ namespace ursine
             return m_base ? m_base->GetType( ) : Type::Invalid( );
         }
 
-		ArrayWrapper Variant::GetArray() const
+		bool Variant::GetArray(ArrayWrapper& _wrapper) const
         {
 			if (m_base)
 			{
-				return m_base->GetArray();
+				return m_base->GetArray(_wrapper);
 			}
 			else
 			{
-				return ArrayWrapper();
+				return false;
 			}
 			
         }

@@ -14,7 +14,7 @@ namespace ursine
 {
 	namespace meta
 	{
-
+		class ArrayWrapper;
 		template<typename T, typename StorageType>
 		class ArrayVariantContainer : public VariantBase
 		{
@@ -31,7 +31,7 @@ namespace ursine
 			std::string ToString(void) const override;
 
 			bool IsArray(void) const override;
-			ArrayWrapper GetArray() const override;
+			bool GetArray(ArrayWrapper& _wrapper) const override;
 
 			VariantBase *Clone(void) const override;
 
@@ -106,9 +106,10 @@ namespace ursine
 		}
 
 		template<typename T, typename StorageType>
-		ArrayWrapper ArrayVariantContainer<T, StorageType>::GetArray() const
+		bool ArrayVariantContainer<T, StorageType>::GetArray(ArrayWrapper& _wrapper) const
 		{
-			return ArrayWrapper(const_cast<Array<T>&>(m_array));
+			_wrapper = ArrayWrapper(const_cast<Array<T>&>(m_array));
+			return true;
 		}
 
 		template<typename T, typename StorageType>

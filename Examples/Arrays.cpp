@@ -1,4 +1,4 @@
-#include "TestReflectionModule.h"
+﻿#include "TestReflectionModule.h"
 
 #include "TestTypes.h"
 #include "TestProperties.h"
@@ -14,7 +14,8 @@ int main(void)
 
     Variant intArrayVariant = intArray;
 
-    ArrayWrapper arrayWrapper = intArrayVariant.GetArray( );
+	ArrayWrapper arrayWrapper;
+	intArrayVariant.GetArray(arrayWrapper);
 
     // updating a value
     arrayWrapper.SetValue( 0, 1000 );

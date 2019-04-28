@@ -115,7 +115,7 @@ namespace ursine
 			operator bool(void) const;
 
 			Type GetType(void) const;
-			ArrayWrapper GetArray() const;
+			bool GetArray(ArrayWrapper& _wrapper) const;
 
 			void Swap(Variant &other);
 

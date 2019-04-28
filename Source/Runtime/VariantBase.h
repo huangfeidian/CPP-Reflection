@@ -35,7 +35,7 @@ namespace ursine
             virtual std::string ToString(void) const = 0;
 
             virtual bool IsArray(void) const;
-            virtual ArrayWrapper GetArray() const;
+            virtual bool GetArray(ArrayWrapper&) const;
 
             virtual VariantBase *Clone(void) const = 0;
 

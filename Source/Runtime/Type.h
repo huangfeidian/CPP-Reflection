@@ -417,6 +417,8 @@ namespace ursine
 
 #include "TypeUnpacker.h"
 #include "Variant.h"
+#include "../Common/Logging.h"
+
 namespace ursine
 {
 	namespace meta

@@ -32,6 +32,16 @@ namespace ursine
             Array<T> &m_array;
         };
 
+		
+    }
+}
+
+#include "Argument.h"
+#include "Variant.h"
+namespace ursine
+{
+	namespace meta
+	{
 		template<typename T>
 		ArrayWrapperContainer<T>::ArrayWrapperContainer(Array<T> &a)
 			: m_array(a)
@@ -68,5 +78,5 @@ namespace ursine
 		{
 			return m_array.size();
 		}
-    }
+	}
 }

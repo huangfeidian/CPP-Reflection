@@ -17,51 +17,57 @@
 
 namespace ursine
 {
-    namespace meta
-    {
-        class Variant;
-        class Argument;
+	namespace meta
+	{
+		class Variant;
+		class Argument;
 
-        class Constructor
-            : public MetaContainer
-            , public Invokable
-        {
-        public:
-            Constructor(void);
-            Constructor(const Constructor &rhs);
-            Constructor(const Constructor &&rhs) noexcept;
-            
-            Constructor(
-                Type classType, 
-                InvokableSignature signature, 
-                ConstructorInvokerBase *invoker, 
-                bool isDynamic
-            );
+		class Constructor
+			: public MetaContainer
+			, public Invokable
+		{
+		public:
+			Constructor(void);
+			Constructor(const Constructor &rhs);
+			Constructor(const Constructor &&rhs) noexcept;
 
-            Constructor &operator=(const Constructor &&rhs);
+			Constructor(
+				Type classType,
+				InvokableSignature signature,
+				ConstructorInvokerBase *invoker,
+				bool isDynamic
+			);
 
-            static const Constructor &Invalid(void);
+			Constructor &operator=(const Constructor &&rhs);
 
-            Type GetClassType(void) const;
+			static const Constructor &Invalid(void);
 
-            bool IsValid(void) const;
-            bool IsDynamic(void) const;
+			Type GetClassType(void) const;
 
-            Variant InvokeVariadic(const ArgumentList &arguments) const;
+			bool IsValid(void) const;
+			bool IsDynamic(void) const;
 
-            template<typename ...Args>
-            Variant Invoke(Args &&...args) const;
+			Variant InvokeVariadic(const ArgumentList &arguments) const;
 
-        private:
-            bool m_isDynamic;
+			template<typename ...Args>
+			Variant Invoke(Args &&...args) const;
 
-            Type m_classType;
+		private:
+			bool m_isDynamic;
 
-            std::shared_ptr<ConstructorInvokerBase> m_invoker;
-        };
+			Type m_classType;
+
+			std::shared_ptr<ConstructorInvokerBase> m_invoker;
+		};
+	}
+}
 
 #include "Variant.h"
 #include "Argument.h"
+namespace ursine
+{
+	namespace meta
+	{
 		template<typename ...Args>
 		Variant Constructor::Invoke(Args &&...args) const
 		{
