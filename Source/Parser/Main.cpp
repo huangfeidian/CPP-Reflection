@@ -12,9 +12,13 @@
 #include <chrono>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <cxxopts.hpp>
 
 using json = nlohmann::json;
-void parse(const std::string& config_file_path);
+void parse(int argc, char* argv[]);
+
+bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt);
+bool parse_json_config(std::string config_file_path, ReflectionOptions& result_opt);
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
 
        
 
-        parse( argv[1]);
+        parse(argc, argv);
     }
     catch (std::exception &e)
     {
@@ -56,12 +60,12 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-void parse(const std::string& config_file_path)
+void parse(int argc, char* argv[])
 {
     ReflectionOptions options;
-	if (!parse_json_config(config_file_path, options))
+	if (!parse_by_command_line(argc, argv, options))
 	{
-		std::cerr << "cant parse config " << config_file_path << std::endl;
+		std::cerr << "cant parse config " << std::endl;
 		return;
 	}
 
@@ -83,6 +87,70 @@ void parse(const std::string& config_file_path)
     {
         utils::FatalError( e.what( ) );
     }
+}
+bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt)
+{
+	cxxopts::Options options("MetaParser", "A program to do script work on cpp with the help of libclang");
+	options.add_options()
+		("t, target_name", "Input target project name.", cxxopts::value<std::string>())
+		("r, source_root", "Root source directory that is shared by all header files.", cxxopts::value<std::string>())
+		("i, in_source", "Source file (header) to compile reflection data from.", cxxopts::value<std::string>())
+		("m, module_header", "Header file that declares this reflection module.", cxxopts::value<std::string>())
+		("s, out_source", "Output generated C++ module source file.", cxxopts::value<std::string>())
+		("c, out_dir", "Output directory for generated C++ module file, header / source files.", cxxopts::value<std::string>())
+		("d, temp_directory", "Directory that contains the mustache templates.", cxxopts::value<std::string>()->default_value("Templates/"))
+		("p, pch", "Optional name of the precompiled header file for the project.", cxxopts::value<std::string>())
+		("e, force_rebuild", "Whether or not to ignore cache and write the header / source files.", cxxopts::value<bool>()->default_value(false))
+		("o, display_diagnostics", "Whether or not to display diagnostics from clang.", cxxopts::value<bool>()->default_value(false))
+		("f, includes", "Optional file that includes the include directories for this target.", cxxopts::value<std::vector<std::string>>())
+		("x, defines", "Optional list of definitions to include for the compiler.", cxxopts::value<std::vector<std::string>>());
+	try
+	{
+		auto result = options.parse(argc, argv);
+		result_opt.targetName = result["target_name"].as<std::string>();
+		result_opt.sourceRoot = result["source_root"].as<std::string>();
+		result_opt.inputSourceFile = result["in_source"].as<std::string>();
+		result_opt.moduleHeaderFile = result["module_header"].as<std::string>();
+		result_opt.outputModuleSource = result["out_source"].as<std::string>();
+		result_opt.outputModuleFileDirectory = result["out_dir"].as<std::string>();
+		result_opt.templateDirectory = result["temp_directory"].as<std::string>();
+		if (result.count("pch"))
+		{
+			result_opt.precompiledHeader = result["pch"].as<std::string>();
+		}
+		result_opt.forceRebuild = result["force_rebuild"].as<bool>();
+		result_opt.displayDiagnostics = result["display_diagnostics"].as<bool>();
+		result_opt.arguments = { {
+			"-x",
+			"c++",
+			"-std=c++11",
+			"-D__REFLECTION_PARSER__"
+		} };
+		if (result.count("includes"))
+		{
+			for (const auto& one_include : result["includes"].as<std::vector<std::string>>())
+			{
+				result_opt.arguments.emplace_back("-I" + one_include);
+			}
+		}
+		if (result.count("defines"))
+		{
+			for (const auto& one_define : result["defines"].as<std::vector<std::string>>())
+			{
+				result_opt.arguments.emplace_back("-D" + one_define);
+			}
+		}
+		return true;
+		
+	}
+	catch (std::exception& e)
+	{
+		std::cerr << "fail to parse the args: " << e.what() << std::endl;
+		return false;
+	}
+	
+
+
 }
 bool parse_json_config(std::string config_file_path, ReflectionOptions& result_opt)
 {

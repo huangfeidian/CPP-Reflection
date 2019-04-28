@@ -143,12 +143,12 @@ function(meta_parser_build)
         OUTPUT ${BUILD_META_GENERATED_FILES}
         DEPENDS ${BUILD_META_HEADER_FILES}
         COMMAND ${BUILD_META_PARSER_EXECUTABLE}
-        --target-name "${BUILD_META_TARGET}"
-        --source-root "${BUILD_META_SOURCE_ROOT}"
-        --in-source "${BUILD_META_SOURCE_ROOT}/${BUILD_META_SOURCE_FILE}"
-        --module-header "${BUILD_META_SOURCE_ROOT}/${BUILD_META_MODULE_HEADER}"
-        --out-source "${BUILD_META_MODULE_SOURCE_FILE}"
-        --out-dir "${BUILD_META_GENERATED_DIR}"
+        --target_name "${BUILD_META_TARGET}"
+        --source_root "${BUILD_META_SOURCE_ROOT}"
+        --in_source "${BUILD_META_SOURCE_ROOT}/${BUILD_META_SOURCE_FILE}"
+        --module_header "${BUILD_META_SOURCE_ROOT}/${BUILD_META_MODULE_HEADER}"
+        --out_source "${BUILD_META_MODULE_SOURCE_FILE}"
+        --out_dir "${BUILD_META_GENERATED_DIR}"
         ${PCH_SWITCH}
         --includes "${INCLUDES_FILE}"
         ${DEFINES_SWITCH}

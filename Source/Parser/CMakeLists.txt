@@ -18,7 +18,6 @@ set(HEADER_FILES
     ReflectionOptions.h
     ReflectionParser.h
     ReservedTypes.h
-    Switches.h
     Templates.h
     Version.h
     LanguageTypes/Class.h
@@ -73,6 +72,10 @@ find_package(nlohmann_json CONFIG REQUIRED)
 # add log support
 find_package(spdlog CONFIG REQUIRED)
 INCLUDE_DIRECTORIES(${spdlog_include_dirs})
+
+#add command line support
+find_package(cxxopts CONFIG REQUIRED)
+INCLUDE_DIRECTORIES(${cxxopts_include_dirs})
 
 # allow use of Common and Library directories
 include_directories(.)
