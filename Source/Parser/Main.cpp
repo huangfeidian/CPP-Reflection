@@ -14,20 +14,18 @@
 #include <nlohmann/json.hpp>
 #include <cxxopts.hpp>
 
+
 using json = nlohmann::json;
 void parse(int argc, char* argv[]);
 
 bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt);
 bool parse_json_config(std::string config_file_path, ReflectionOptions& result_opt);
+using namespace std;
 
 int main(int argc, char *argv[])
 {
+	
     auto start = std::chrono::system_clock::now( );
-	if (argc != 2)
-	{
-		std::cerr << "only need one argument to specify the config file path" << std::endl;
-		return 0;
-	}
     // parse command line
     try 
     {
@@ -53,7 +51,7 @@ int main(int argc, char *argv[])
 
     auto duration = std::chrono::system_clock::now( ) - start;
 
-    std::cout << "Completed in " 
+    cout << "Completed in " 
               << std::chrono::duration_cast<std::chrono::milliseconds>( duration ).count( ) 
               << "ms" << std::endl;
 
@@ -65,16 +63,15 @@ void parse(int argc, char* argv[])
     ReflectionOptions options;
 	if (!parse_by_command_line(argc, argv, options))
 	{
-		std::cerr << "cant parse config " << std::endl;
+		cerr << "cant parse config " << std::endl;
 		return;
 	}
 
     
-    std::cout << std::endl;
-    std::cout << "Parsing reflection data for target \"" 
+    cout << std::endl;
+    cout << "Parsing reflection data for target \"" 
               << options.targetName << "\"" 
               << std::endl;
-
     ReflectionParser parser( options );
 
     parser.Parse( );
@@ -92,6 +89,7 @@ bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt
 {
 	cxxopts::Options options("MetaParser", "A program to do script work on cpp with the help of libclang");
 	options.add_options()
+		("o, display_diagnostics", "Whether or not to display diagnostics from clang.", cxxopts::value<bool>())
 		("t, target_name", "Input target project name.", cxxopts::value<std::string>())
 		("r, source_root", "Root source directory that is shared by all header files.", cxxopts::value<std::string>())
 		("i, in_source", "Source file (header) to compile reflection data from.", cxxopts::value<std::string>())
@@ -100,10 +98,9 @@ bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt
 		("c, out_dir", "Output directory for generated C++ module file, header / source files.", cxxopts::value<std::string>())
 		("d, temp_directory", "Directory that contains the mustache templates.", cxxopts::value<std::string>()->default_value("Templates/"))
 		("p, pch", "Optional name of the precompiled header file for the project.", cxxopts::value<std::string>())
-		("e, force_rebuild", "Whether or not to ignore cache and write the header / source files.", cxxopts::value<bool>()->default_value(false))
-		("o, display_diagnostics", "Whether or not to display diagnostics from clang.", cxxopts::value<bool>()->default_value(false))
 		("f, includes", "Optional file that includes the include directories for this target.", cxxopts::value<std::vector<std::string>>())
-		("x, defines", "Optional list of definitions to include for the compiler.", cxxopts::value<std::vector<std::string>>());
+		("x, defines", "Optional list of definitions to include for the compiler.", cxxopts::value<std::vector<std::string>>())
+		("e, force_rebuild", "Whether or not to ignore cache and write the header source files.", cxxopts::value<bool>());
 	try
 	{
 		auto result = options.parse(argc, argv);
@@ -140,12 +137,27 @@ bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt
 				result_opt.arguments.emplace_back("-D" + one_define);
 			}
 		}
+		cout << "targetName: " << result_opt.targetName << endl;
+		cout << "sourceRoot: " << result_opt.sourceRoot << endl;
+		cout << "inputSourceFile: " << result_opt.inputSourceFile << endl;
+		cout << "moduleHeaderFile: " << result_opt.moduleHeaderFile << endl;
+		cout << "outputModuleSource: " << result_opt.outputModuleSource << endl;
+		cout << "outputModuleFileDirectory: " << result_opt.outputModuleFileDirectory << endl;
+		cout << "templateDirectory: " << result_opt.templateDirectory << endl;
+		cout << "precompiledHeader: " << result_opt.precompiledHeader << endl;
+		cout << "forceRebuild: " << result_opt.forceRebuild << endl;
+		cout << "displayDiagnostics: " << result_opt.displayDiagnostics << endl;
+		for (const auto& one_arg : result_opt.arguments)
+		{
+			cout << "arguments: " << one_arg << endl;
+		}
+		
 		return true;
 		
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << "fail to parse the args: " << e.what() << std::endl;
+		cerr << "fail to parse the args: " << e.what() << std::endl;
 		return false;
 	}
 	
@@ -162,13 +174,13 @@ bool parse_json_config(std::string config_file_path, ReflectionOptions& result_o
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
-		std::cerr << "fail to parse config " << config_file_path << std::endl;
+		cerr << e.what() << std::endl;
+		cerr << "fail to parse config " << config_file_path << std::endl;
 		return false;
 	}
 	if (!json_obj.is_object())
 	{
-		std::cerr << "the data should be a map" << std::endl;
+		cerr << "the data should be a map" << std::endl;
 		return false;
 	}
 	std::vector<std::string> str_required_keys = {
@@ -187,18 +199,18 @@ bool parse_json_config(std::string config_file_path, ReflectionOptions& result_o
 		auto temp_value_iter = json_obj.find(one_key);
 		if (temp_value_iter == json_obj.end())
 		{
-			std::cerr << "cant find value for key " << one_key << std::endl;
+			cerr << "cant find value for key " << one_key << std::endl;
 			return false;
 		}
 		if (!temp_value_iter->is_string())
 		{
-			std::cerr << "cant find string value for key " << one_key << std::endl;
+			cerr << "cant find string value for key " << one_key << std::endl;
 			return false;
 		}
 		auto temp_value = temp_value_iter->get<std::string>();
 		if (temp_value.empty())
 		{
-			std::cerr << "cant find value for key " << one_key << std::endl;
+			cerr << "cant find value for key " << one_key << std::endl;
 			return false;
 		}
 	}
@@ -220,12 +232,12 @@ bool parse_json_config(std::string config_file_path, ReflectionOptions& result_o
 		auto temp_value_iter = json_obj.find(one_key);
 		if (temp_value_iter == json_obj.end())
 		{
-			std::cerr << "cant find value for key " << one_key << std::endl;
+			cerr << "cant find value for key " << one_key << std::endl;
 			return false;
 		}
 		if (!temp_value_iter->is_boolean())
 		{
-			std::cerr << "cant find bool value for key " << one_key << std::endl;
+			cerr << "cant find bool value for key " << one_key << std::endl;
 			return false;
 		}
 	}
@@ -241,19 +253,19 @@ bool parse_json_config(std::string config_file_path, ReflectionOptions& result_o
 		auto temp_value_iter = json_obj.find(one_key);
 		if (temp_value_iter == json_obj.end())
 		{
-			std::cerr << "cant find value for key " << one_key << std::endl;
+			cerr << "cant find value for key " << one_key << std::endl;
 			return false;
 		}
 		if (!temp_value_iter->is_array())
 		{
-			std::cerr << "cant find vector value for key " << one_key << std::endl;
+			cerr << "cant find vector value for key " << one_key << std::endl;
 			return false;
 		}
 		for (auto& one_item : *temp_value_iter)
 		{
 			if (!one_item.is_string())
 			{
-				std::cerr << "expect string for key " << one_key << " but get " << one_item << std::endl;
+				cerr << "expect string for key " << one_key << " but get " << one_item << std::endl;
 				return false;
 			}
 		}
@@ -266,5 +278,5 @@ bool parse_json_config(std::string config_file_path, ReflectionOptions& result_o
 	{
 		result_opt.arguments.emplace_back("-D" + one_item);
 	}
-
+	return true;
 }

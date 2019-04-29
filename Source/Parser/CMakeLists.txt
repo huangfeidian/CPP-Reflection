@@ -101,8 +101,6 @@ if (MSVC)
 
     target_compile_options(MetaParser
         PUBLIC
-        # treat warnings as errors
-        /WX 
         # multi process compilation
         /MP
     )

@@ -139,10 +139,11 @@ function(meta_parser_build)
     endforeach ()
 
     # add the command that generates the header and source files
+	message(WARNING     "call meta with ${BUILD_META_TARGET}")
     add_custom_command(
         OUTPUT ${BUILD_META_GENERATED_FILES}
         DEPENDS ${BUILD_META_HEADER_FILES}
-        COMMAND ${BUILD_META_PARSER_EXECUTABLE}
+        COMMAND ${BUILD_META_PARSER_EXECUTABLE} 
         --target_name "${BUILD_META_TARGET}"
         --source_root "${BUILD_META_SOURCE_ROOT}"
         --in_source "${BUILD_META_SOURCE_ROOT}/${BUILD_META_SOURCE_FILE}"
@@ -152,5 +153,6 @@ function(meta_parser_build)
         ${PCH_SWITCH}
         --includes "${INCLUDES_FILE}"
         ${DEFINES_SWITCH}
+		VERBATIM
     )
 endfunction ()
