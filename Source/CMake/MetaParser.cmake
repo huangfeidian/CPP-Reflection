@@ -139,7 +139,6 @@ function(meta_parser_build)
     endforeach ()
 
     # add the command that generates the header and source files
-	message(WARNING     "call meta with ${BUILD_META_TARGET}")
     add_custom_command(
         OUTPUT ${BUILD_META_GENERATED_FILES}
         DEPENDS ${BUILD_META_HEADER_FILES}
@@ -153,6 +152,5 @@ function(meta_parser_build)
         ${PCH_SWITCH}
         --includes "${INCLUDES_FILE}"
         ${DEFINES_SWITCH}
-		VERBATIM
     )
 endfunction ()

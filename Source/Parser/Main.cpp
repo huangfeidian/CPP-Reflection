@@ -98,7 +98,7 @@ bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt
 		("c, out_dir", "Output directory for generated C++ module file, header / source files.", cxxopts::value<std::string>())
 		("d, temp_directory", "Directory that contains the mustache templates.", cxxopts::value<std::string>()->default_value("Templates/"))
 		("p, pch", "Optional name of the precompiled header file for the project.", cxxopts::value<std::string>())
-		("f, includes", "Optional file that includes the include directories for this target.", cxxopts::value<std::vector<std::string>>())
+		("f, includes", "Optional file that includes the include directories for this target.", cxxopts::value<std::string>())
 		("x, defines", "Optional list of definitions to include for the compiler.", cxxopts::value<std::vector<std::string>>())
 		("e, force_rebuild", "Whether or not to ignore cache and write the header source files.", cxxopts::value<bool>());
 	try
@@ -125,10 +125,13 @@ bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt
 		} };
 		if (result.count("includes"))
 		{
-			for (const auto& one_include : result["includes"].as<std::vector<std::string>>())
-			{
-				result_opt.arguments.emplace_back("-I" + one_include);
-			}
+			auto includes = result["includes"].as<std::string >();
+			std::ifstream includesFile(includes);
+
+			std::string include;
+
+			while (std::getline(includesFile, include))
+				result_opt.arguments.emplace_back("-I" + include);
 		}
 		if (result.count("defines"))
 		{
