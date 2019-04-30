@@ -1,10 +1,12 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ReflectionParser.h
 ** --------------------------------------------------------------------------*/
 
 #pragma once
+
+#include <spdlog/spdlog.h>
 
 #include "ReflectionOptions.h"
 
@@ -24,11 +26,11 @@ class Enum;
 class ReflectionParser
 {
 public:
-    ReflectionParser(const ReflectionOptions &options);
+    ReflectionParser(const ReflectionOptions &options, spdlog::logger& in_logger);
     ~ReflectionParser(void);
 
     void Parse(void);
-    void GenerateFiles(void);
+    bool GenerateFiles(void);
 
     MustacheTemplate LoadTemplate(const std::string &name) const;
 
@@ -47,6 +49,7 @@ private:
 
     MustacheTemplate m_moduleFileHeaderTemplate;
     MustacheTemplate m_moduleFileSourceTemplate;
+	spdlog::logger& _logger;
 
     mutable std::unordered_map<
         std::string, 

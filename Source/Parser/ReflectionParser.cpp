@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** ReflectionParser.cpp
@@ -51,12 +51,14 @@ namespace
     const std::regex kSpecialCharsRegex( "[^a-zA-Z0-9]+" );
 }
 
-ReflectionParser::ReflectionParser(const ReflectionOptions &options)
+ReflectionParser::ReflectionParser(const ReflectionOptions &options, spdlog::logger& in_logger)
     : m_options( options )
     , m_index( nullptr )
     , m_translationUnit( nullptr )
     , m_moduleFileHeaderTemplate( "" )
     , m_moduleFileSourceTemplate( "" )
+	, _logger(in_logger)
+
 {
     // replace special characters in target name with underscores
     m_options.targetName = std::regex_replace(
@@ -124,21 +126,23 @@ void ReflectionParser::Parse(void)
     buildEnums( cursor, tempNamespace );
 }
 
-void ReflectionParser::GenerateFiles(void)
+bool ReflectionParser::GenerateFiles(void)
 {
+	_logger.debug("GenerateFiles begin");
     fs::path sourceRootDirectory( m_options.sourceRoot );
+	_logger.debug("sourceRootDirectory {}", m_options.sourceRoot);
     fs::path outputFileDirectory( m_options.outputModuleFileDirectory );
+	_logger.debug("outputFileDirectory {}", m_options.outputModuleFileDirectory);
 
     m_moduleFileHeaderTemplate = LoadTemplate( kTemplateModuleFileHeader );
 
     if (!m_moduleFileHeaderTemplate.isValid( ))
     {
-        std::stringstream error;
 
-        error << "Unable to compile module file header template." << std::endl;
-        error << m_moduleFileHeaderTemplate.errorMessage( );
+        _logger.error("Unable to compile module file header template.");
+        _logger.error(m_moduleFileHeaderTemplate.errorMessage( ));
 
-        throw std::runtime_error( error.str( ) );
+		return false;
     }
 
     m_moduleFileSourceTemplate = LoadTemplate( kTemplateModuleFileSource );
@@ -147,10 +151,10 @@ void ReflectionParser::GenerateFiles(void)
     {
         std::stringstream error;
 
-        error << "Unable to compile module file source template." << std::endl;
-        error << m_moduleFileSourceTemplate.errorMessage( );
+		_logger.error("Unable to compile module file source template.");
+        _logger.error(m_moduleFileSourceTemplate.errorMessage( ));
 
-        throw std::runtime_error( error.str( ) );
+		return false;
     }
 
     TemplateData moduleFilesData { TemplateData::Type::List };
@@ -229,7 +233,7 @@ void ReflectionParser::GenerateFiles(void)
                 cacheFileBegin, cacheFileEnd 
             ))
         {
-            return;
+            return true;
         }
     }
 
@@ -247,10 +251,10 @@ void ReflectionParser::GenerateFiles(void)
         {
             std::stringstream error;
 
-            error << "Unable to compile module source template." << std::endl;
-            error << sourceTemplate.errorMessage( );
+            _logger.error("Unable to compile module source template.");
+            _logger.error("detail is {}", sourceTemplate.errorMessage( ));
 
-            throw std::runtime_error( error.str( ).c_str( ) );
+			return false;
         }
 
         TemplateData sourceData { TemplateData::Type::Object };
@@ -270,6 +274,7 @@ void ReflectionParser::GenerateFiles(void)
             sourceTemplate.render( sourceData )
         );
     }
+	return true;
 }
 
 MustacheTemplate ReflectionParser::LoadTemplate(const std::string &name) const
@@ -288,13 +293,8 @@ MustacheTemplate ReflectionParser::LoadTemplate(const std::string &name) const
     }
     catch (std::exception &e)
     {
-        std::stringstream error;
-
-        error << "Unable to load template ";
-        error << name << "." << std::endl;
-        error << "-- " << e.what( );
-
-        utils::FatalError( error.str( ) );
+		_logger.error("unable to load template {} details is {}", name, e.what());
+		exit(1);
     }
 
     // this will never happen
@@ -332,13 +332,8 @@ TemplateData::PartialType ReflectionParser::LoadTemplatePartial(
     }
     catch(std::exception &e)
     {
-        std::stringstream error;
-
-        error << "Unable to load template partial ";
-        error << name << "." << std::endl;
-        error << "-- " << e.what( );
-
-        utils::FatalError( error.str( ) );
+		_logger.error("unable to load template partial {} details is {}", name, e.what());
+		exit(1);
     }
 
     // this will never happen
@@ -360,7 +355,7 @@ void ReflectionParser::buildClasses(
         )
         {
             auto klass = std::make_shared<Class>( child, currentNamespace );
-
+			_logger.debug("add class {}", child.GetDisplayName());
             TRY_ADD_LANGUAGE_TYPE( klass, classes );
         }
         else if (kind == CXCursor_TypedefDecl)
@@ -373,6 +368,7 @@ void ReflectionParser::buildClasses(
                 m_externals.emplace_back(
                     std::make_shared<External>( child.GetTypedefType( ).GetDeclaration( ) )
                 );
+				_logger.debug("add external type {}", displayName);
             }
         }
         
@@ -399,7 +395,7 @@ void ReflectionParser::buildGlobals(
         if (kind == CXCursor_VarDecl) 
         {
             auto global = std::make_shared<Global>( child, currentNamespace );
-
+			_logger.debug("add global var {}", child.GetDisplayName());
             TRY_ADD_LANGUAGE_TYPE( global, globals );
         }
 
@@ -424,7 +420,7 @@ void ReflectionParser::buildGlobalFunctions(
         if (kind == CXCursor_FunctionDecl) 
         {
             auto function = std::make_shared<Function>( child, currentNamespace );
-
+			_logger.debug("add global function decl {}", child.GetDisplayName());
             TRY_ADD_LANGUAGE_TYPE( function, globalFunctions );
         }
 
@@ -459,6 +455,7 @@ void ReflectionParser::buildEnums(
                 {
                     if (enumChild.GetKind( ) == CXCursor_EnumConstantDecl)
                     {
+						_logger.debug("add global enum constant {}", enumChild.GetDisplayName());
                         auto global = std::make_shared<Global>( enumChild, currentNamespace, nullptr );
 
                         TRY_ADD_LANGUAGE_TYPE( global, globals );
@@ -468,7 +465,7 @@ void ReflectionParser::buildEnums(
             else
             {
                 auto enewm = std::make_shared<Enum>( child, currentNamespace );
-
+				_logger.debug("add enum {}", child.GetDisplayName());
                 TRY_ADD_LANGUAGE_TYPE( enewm, enums );
             }
         }
@@ -498,7 +495,7 @@ void ReflectionParser::generateModuleFile(
     const ModuleFile &file
 )
 {
-	std::cerr << "generateModuleFile for fileHeader " << fileHeader << " fileSource " << fileSource << " SourceHeader " << sourceHeader <<" module file "<<file.name<< std::endl;
+	_logger.debug("generateModuleFile for fileHeader {0} fileSource {1} SourceHeader {2} module file {3}", fileHeader.string(), fileSource.string(), sourceHeader, file.name);
     // header file
     {
         TemplateData headerData { TemplateData::Type::Object };
