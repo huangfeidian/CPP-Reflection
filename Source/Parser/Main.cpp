@@ -13,9 +13,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <cxxopts.hpp>
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/basic_file_sink.h>
+
 
 
 
@@ -76,15 +74,7 @@ void parse(int argc, char* argv[])
     cout << "Parsing reflection data for target \"" 
               << options.targetName << "\"" 
               << std::endl;
-	auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-	console_sink->set_level(spdlog::level::warn);
-	console_sink->set_pattern("[meta] [%^%l%$] %v");
-
-	auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("meta.txt", true);
-	file_sink->set_level(spdlog::level::trace);
-
-	spdlog::logger logger("multi_sink", { console_sink, file_sink });
-	logger.set_level(spdlog::level::trace);
+	auto& logger = utils::get_logger();
 	logger.info("targetName: {}", options.targetName);
 	logger.info("sourceRoot: {}", options.sourceRoot);
 	logger.info("inputSourceFile: {}", options.inputSourceFile);
@@ -99,7 +89,7 @@ void parse(int argc, char* argv[])
 	{
 		logger.info("arguments: {}", one_arg);
 	}
-    ReflectionParser parser( options, logger);
+    ReflectionParser parser(options);
 
     parser.Parse( );
 
@@ -147,7 +137,7 @@ bool parse_by_command_line(int argc, char* argv[], ReflectionOptions& result_opt
 		result_opt.arguments = { {
 			"-x",
 			"c++",
-			"-std=c++11",
+			"-std=c++17",
 			"-D__REFLECTION_PARSER__"
 		} };
 		if (result.count("includes"))

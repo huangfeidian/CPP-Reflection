@@ -1,4 +1,4 @@
-#include "TestReflectionModule.h"
+﻿#include "TestReflectionModule.h"
 
 #include "TestTypes.h"
 #include "TestProperties.h"
@@ -54,7 +54,7 @@ int main(void)
     // This is a static helper method. It is essentially doing this -
     // typeof( ComplexType ).DeserializeJson( ).GetValue<ComplexType>( )
     ComplexType deserializedComplexType = Type::DeserializeJson<ComplexType>( 
-        Json::parse( complexJson, jsonError )
+        Json::parse(complexJson)
     );
 
     std::cout << "Deserialized: " << std::endl

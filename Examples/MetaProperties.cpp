@@ -1,4 +1,4 @@
-#include "TestReflectionModule.h"
+﻿#include "TestReflectionModule.h"
 
 #include "TestTypes.h"
 #include "TestProperties.h"
@@ -10,7 +10,7 @@ int main(void)
     MetaInitialize( UsingModule( TestModule ) );
 
     // you can also use type meta::Type::GetFromName( "SoundEffect" ) based on a string name
-    Type soundEffectType = typeof( SoundEffect );
+    Type soundEffectType = meta_typeof( SoundEffect );
 
     // the volume field in the SoundEffect struct
     Field volumeField = soundEffectType.GetField( "volume" );
@@ -19,7 +19,7 @@ int main(void)
     const MetaManager &volumeMeta = volumeField.GetMeta( );
 
     // getting the "Range" property, then casting the variant as a Range
-    Range &volumeRange = volumeMeta.GetProperty( typeof( Range ) ).GetValue<Range>( );
+    Range &volumeRange = volumeMeta.GetProperty( meta_typeof( Range ) ).GetValue<Range>( );
 
     // 0.0f
     std::cout << "SoundEffect::volume [Range.min]: " << volumeRange.min << std::endl;
@@ -28,10 +28,10 @@ int main(void)
     std::cout << "SoundEffect::volume [Range.max]: " << volumeRange.max << std::endl;
 
     // getting the "Slider" property, then casting the variant as a Slider
-    Slider &volumeSlider = volumeMeta.GetProperty( typeof( Slider ) ).GetValue<Slider>( );
+    Slider &volumeSlider = volumeMeta.GetProperty( meta_typeof( Slider ) ).GetValue<Slider>( );
 
     // type representing the SlideType enum
-    Type sliderTypeEnumType = typeof( SliderType );
+    Type sliderTypeEnumType = meta_typeof( SliderType );
 
     // enum representing the SliderType
     const Enum &sliderTypeEnum = sliderTypeEnumType.GetEnum( );

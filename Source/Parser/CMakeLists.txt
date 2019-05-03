@@ -123,6 +123,7 @@ if (MSVC)
 
     # normalize slashes
     string(REPLACE "\\" "/" SYSTEM_INCLUDES "${SYSTEM_INCLUDES}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest")
 else ()
     target_compile_options(MetaParser
         PUBLIC -std=c++17

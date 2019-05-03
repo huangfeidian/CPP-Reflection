@@ -25,6 +25,11 @@ namespace ursine
 
 		class MetaManager
 		{
+			// 这里的metamanager是记录一个符号的所有meta信息的容器
+			// meta信息有两种形式 
+			// 一种是xxx, 代表bool型变量，有这个字段代表此符号的xxx属性为true， 例如Enabled, Registered
+			// 另外一种是xxx(vargs...) xxx代表类型描述符，里面的参数就是构造这个类型描述符的构造参数，例如 Rpc(RPCTYPE::CLIENT_ONLY, RPCARG::INT, RPCARG::FLOAT)
+			// 这两种情况的xxx都需要继承自MetaProperty，是个类型名字
 		public:
 			typedef std::initializer_list<
 				std::pair<Type, const MetaProperty *>

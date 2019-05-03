@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <spdlog/spdlog.h>
 
 #include "ReflectionOptions.h"
 
@@ -26,7 +25,7 @@ class Enum;
 class ReflectionParser
 {
 public:
-    ReflectionParser(const ReflectionOptions &options, spdlog::logger& in_logger);
+    ReflectionParser(const ReflectionOptions &options);
     ~ReflectionParser(void);
 
     void Parse(void);
@@ -49,7 +48,6 @@ private:
 
     MustacheTemplate m_moduleFileHeaderTemplate;
     MustacheTemplate m_moduleFileSourceTemplate;
-	spdlog::logger& _logger;
 
     mutable std::unordered_map<
         std::string, 
@@ -58,7 +56,7 @@ private:
 
     std::vector<std::shared_ptr<External>> m_externals;
     std::unordered_map<std::string, ModuleFile> m_moduleFiles;
-
+	spdlog::logger& _logger;
     void buildClasses(
         const Cursor &cursor, 
         Namespace &currentNamespace

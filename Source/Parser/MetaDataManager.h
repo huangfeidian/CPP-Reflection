@@ -1,4 +1,4 @@
-/* ----------------------------------------------------------------------------
+﻿/* ----------------------------------------------------------------------------
 ** Copyright (c) 2016 Austin Brunkhorst, All Rights Reserved.
 **
 ** MetaDataManager.h
@@ -12,6 +12,7 @@ class ReflectionParser;
 
 class MetaDataManager
 {
+	// 这个类其实就是一个map 记录了一些k v
 public:
     MetaDataManager(const Cursor &cursor);
 

@@ -43,8 +43,11 @@ MetaDataManager::MetaDataManager(const Cursor &cursor)
         if (child.GetKind( ) != CXCursor_AnnotateAttr)
             continue;
 
-        for (auto &prop : extractProperties( child ))
-            m_properties[ prop.first ] = prop.second;
+		for (auto &prop : extractProperties(child))
+		{
+			m_properties[prop.first] = prop.second;
+			utils::get_logger().debug("{0} has property {1} with value {2}", cursor.GetDisplayName(), prop.first, prop.second);
+		}
     }
 }
 
@@ -169,6 +172,10 @@ std::vector<MetaDataManager::Property> MetaDataManager::extractProperties(
     const Cursor &cursor
 ) const
 {
+	// 这个函数就是用来获取所有的attribute属性的
+	// meta信息有两种形式 
+	// 一种是xxx, 代表bool型变量，有这个字段代表此符号的xxx属性为true， 例如Enabled, Registered
+	// 另外一种是xxx(vargs...) xxx代表类型描述符，里面的参数就是构造这个类型描述符的构造参数，例如 Rpc(RPCTYPE::CLIENT_ONLY, RPCARG::INT, RPCARG::FLOAT)
     std::vector<Property> properties;
 
     auto &tokenizer = getConstructorTokenizer( );

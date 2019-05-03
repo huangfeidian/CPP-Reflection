@@ -129,6 +129,7 @@ if (MSVC)
         # multi process compilation
         /MP
     )
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest")
 else ()
     target_compile_options(MetaRuntime 
         PUBLIC

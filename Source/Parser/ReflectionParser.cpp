@@ -14,6 +14,7 @@
 #include "LanguageTypes/Global.h"
 #include "LanguageTypes/Function.h"
 #include "LanguageTypes/Enum.h"
+#include "MetaUtils.h"
 
 #include <regex>
 
@@ -51,13 +52,13 @@ namespace
     const std::regex kSpecialCharsRegex( "[^a-zA-Z0-9]+" );
 }
 
-ReflectionParser::ReflectionParser(const ReflectionOptions &options, spdlog::logger& in_logger)
+ReflectionParser::ReflectionParser(const ReflectionOptions &options)
     : m_options( options )
     , m_index( nullptr )
     , m_translationUnit( nullptr )
     , m_moduleFileHeaderTemplate( "" )
     , m_moduleFileSourceTemplate( "" )
-	, _logger(in_logger)
+	, _logger(utils::get_logger())
 
 {
     // replace special characters in target name with underscores

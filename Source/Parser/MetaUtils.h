@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <spdlog/logger.h>
 #include "Cursor.h"
 #include "Namespace.h"
 
@@ -42,6 +43,7 @@ namespace utils
 
     template<typename A, typename B>
     bool RangeEqual(A startA, A endA, B startB, B endB);
+	spdlog::logger& get_logger();
 }
 
 #include "MetaUtils.hpp"
